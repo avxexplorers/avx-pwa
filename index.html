@@ -130,36 +130,28 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
                 
-                // QR REUBICADO A LA DERECHA Y MÁS ARRIBA
+                // QR SITUADO A LA DERECHA (Misma altura y tamaño original)
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
                 qrImg.onload = () => {
                     ctx.fillStyle = "rgba(255,255,255,0.85)";
-                    ctx.fillRect(780, 310, 170, 170); // Caja blanca derecha
-                    ctx.drawImage(qrImg, 790, 320, 150, 150); // QR derecha
+                    ctx.fillRect(780, 385, 170, 170); // Posición derecha simétrica a la original
+                    ctx.drawImage(qrImg, 790, 395, 150, 150);
                 };
 
-                // TEXTOS REUBICADOS Y MEJORADOS
+                // DATOS REGRESADOS AL DISEÑO ORIGINAL (Izquierda)
                 ctx.fillStyle = "white";
-                ctx.font = "bold 44px Montserrat";
-                ctx.fillText(`${m[0]} ${m[1]}`, 60, 150);
+                ctx.font = "bold 42px Montserrat";
+                ctx.fillText(`${m[0]} ${m[1]}`, 560, 150);
                 
-                // ID ESTILO TARJETA DE CRÉDITO (GRANDE Y ESPACIADO)
-                ctx.font = "bold 52px Montserrat";
-                ctx.fillStyle = "#FFCD00";
-                let spacedID = m[7].split('').join('  '); // Espacia el ID para look premium
-                ctx.fillText(`${spacedID}`, 60, 240);
-                
-                // RESTO DE DATOS
-                ctx.fillStyle = "white";
                 ctx.font = "24px Montserrat";
-                ctx.fillText(`PAÍS: ${m[3]}`, 60, 300);
-                ctx.fillText(`NIVEL: ${m[5].toUpperCase()}`, 60, 340);
+                ctx.fillText(`ID: ${m[7]}`, 560, 210);
+                ctx.fillText(`${m[3]}`, 560, 250);
                 
-                ctx.font = "bold 28px Montserrat";
                 ctx.fillStyle = "#FFCD00";
-                ctx.fillText(`VENCE: ${m[9]}`, 60, 400);
+                ctx.font = "bold 28px Montserrat";
+                ctx.fillText(`VENCE: ${m[9]}`, 560, 310);
             }
         }
     </script>
