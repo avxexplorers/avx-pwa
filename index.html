@@ -3,87 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVX Explorers Club & Expeditions</title>
+    <title>AVX Explorers Club</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-        body { font-family: 'Montserrat', sans-serif; background-color: #051c1c; color: white; }
-        .card-canvas { display: none; }
+        body { font-family: 'Montserrat', sans-serif; background: #e2e2e2 url('fondo_curvas.jpg') no-repeat center center fixed; background-size: cover; color: #1a1a1a; }
+        .header-follaje, .footer-follaje { background: url('textura_follaje.jpg') center center; background-size: cover; }
+        .btn-caterpillar { background-color: #FFCD00; color: #000; font-weight: bold; transition: all 0.3s ease; text-align: center; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.1); }
     </style>
 </head>
-<body>
-    <header class="p-6 flex justify-between items-center border-b border-gray-700">
-        <h1 class="text-xl font-bold text-green-400 tracking-widest">AVX EXPLORERS</h1>
-        <select id="langSwitch" class="bg-transparent border border-white text-sm p-1 rounded" onchange="switchLang()">
-            <option value="es" class="text-black">ESPAÑOL</option>
-            <option value="en" class="text-black">ENGLISH</option>
-        </select>
+<body class="flex flex-col min-h-screen">
+
+    <header class="header-follaje p-6 text-center shadow-lg border-b-4 border-yellow-500">
+        <h1 class="text-white text-2xl font-bold tracking-tighter uppercase">Peregrinos del Mar (2026)</h1>
+        <div class="flex justify-center gap-3 mt-4">
+            <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar px-4 py-2 text-xs">VER VIDEO</a>
+            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar px-4 py-2 text-xs">BROCHURE</a>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar px-4 py-2 text-xs">RESERVAR</a>
+        </div>
     </header>
 
-    <section class="p-8 max-w-4xl mx-auto text-center">
-        <h2 id="expeditionTitle" class="text-3xl font-bold mb-4">GALICIA 2026: PEREGRINOS DEL MAR</h2>
-        <p id="slogan" class="italic text-gray-300 mb-6 italic">"Volver a lo básico, para descubrir lo extraordinario"</p>
+    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="bg-blue-600 p-3 rounded font-bold hover:bg-blue-700">VER BROCHURE</a>
-            <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="bg-red-600 p-3 rounded font-bold hover:bg-red-700">VER VIDEO</a>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="bg-green-600 p-3 rounded font-bold hover:bg-green-700">RESERVAR ($540 USD)</a>
-        </div>
-        <p id="availability" class="text-yellow-400 font-bold">14 CUPOS DISPONIBLES - RESERVA CON EL 40%</p>
-    </section>
+        <section class="glass-panel p-6 rounded-2xl shadow-xl">
+            <h2 class="text-center font-bold mb-4 uppercase text-gray-700">Validación de Miembro</h2>
+            <div class="flex gap-2">
+                <input type="text" id="memberSearch" placeholder="Email o ID" class="flex-grow p-3 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-yellow-500 font-bold">
+                <button onclick="checkMember()" class="btn-caterpillar px-6 py-3 uppercase text-sm">Validar</button>
+            </div>
 
-    <section class="bg-gray-900 p-8 border-t border-gray-800">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 id="clubTitle" class="text-2xl font-bold mb-6">MIEMBROS DEL CLUB</h2>
-            <div class="mb-4">
-                <input type="text" id="memberSearch" placeholder="Ingresa tu ID o Email" class="p-2 rounded text-black w-64">
-                <button onclick="checkMember()" class="bg-green-500 p-2 rounded font-bold ml-2">VER TARJETA</button>
+            <div id="resultArea" class="mt-6 hidden animate-fade-in text-center">
+                <canvas id="cardCanvas" width="1000" height="600" class="w-full rounded-xl shadow-2xl"></canvas>
+                
+                <div id="discountZone" class="hidden mt-4 p-4 bg-green-100 border-2 border-green-500 rounded-xl">
+                    <p class="text-green-800 font-bold text-sm">✓ BENEFICIO EXPLORER DETECTADO</p>
+                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-3 w-full">PAGAR CUOTA CON -10%</a>
+                </div>
             </div>
-            <div id="cardContainer" class="mt-6 flex justify-center">
-                <canvas id="cardCanvas" width="1000" height="600" class="max-w-full rounded-lg shadow-2xl border border-gray-700"></canvas>
-            </div>
-            <div class="mt-8">
-                <p id="notMember" class="text-sm text-gray-400 mb-4">¿Aún no eres miembro? Únete por $10 USD</p>
-                <a href="https://wise.com/pay/me/germanb185" target="_blank" class="text-green-400 underline font-bold">Pagar Anualidad Club</a>
-            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer-follaje p-6 border-t-4 border-yellow-500 mt-auto">
+        <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <a href="TU_LINK_GOOGLE_FORM" target="_blank" class="btn-caterpillar py-3 text-xs">AFILIACIÓN GRATUITA</a>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar py-3 text-xs">AFILIACIÓN EXPLORER</a>
+            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-3">CONTACTAR WHATSAPP</a>
         </div>
-    </section>
+        <p class="text-center text-[10px] text-white mt-4 opacity-80">expeditions@avxexplorers.com</p>
+    </footer>
 
     <script>
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv';
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
-        const templateImg = new Image();
-        templateImg.src = 'TEMPLATE_AVX_CARDCLUB.jpg';
 
         async function checkMember() {
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
             const response = await fetch(csvUrl);
             const data = await response.text();
             const rows = data.split('\n').map(row => row.split(','));
+            const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
 
-            const member = rows.find(r => r[2]?.toLowerCase() === input || r[7]?.toLowerCase() === input);
-
-            if (member && member[6].trim() === 'Activo') {
+            if (member && member[6]?.trim() === 'Activo') {
+                document.getElementById('resultArea').classList.remove('hidden');
                 drawCard(member);
+                if (member[5]?.trim() === 'Explorer') {
+                    document.getElementById('discountZone').classList.remove('hidden');
+                } else {
+                    document.getElementById('discountZone').classList.add('hidden');
+                }
             } else {
-                alert("ID no encontrado o pago pendiente de validación.");
+                alert("Miembro no encontrado o requiere activación.");
             }
         }
 
         function drawCard(m) {
-            ctx.drawImage(templateImg, 0, 0, 1000, 600);
-            ctx.fillStyle = "white";
-            ctx.font = "bold 40px Montserrat";
-            ctx.fillText(`${m[0]} ${m[1]}`, 600, 150);
-            ctx.font = "25px Montserrat";
-            ctx.fillText(`ID: ${m[7]}`, 600, 200);
-            ctx.fillText(`País: ${m[3]}`, 600, 240);
-            ctx.fillStyle = "#fbbf24";
-            ctx.fillText(`VENCE: ${m[9]}`, 600, 290);
-        }
+            const template = new Image();
+            template.src = (m[5]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
+            
+            template.onload = function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(template, 0, 0, 1000, 600);
+                
+                // QR
+                const qrImg = new Image();
+                qrImg.crossOrigin = "anonymous";
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
+                qrImg.onload = () => {
+                    ctx.fillStyle = "rgba(255,255,255,0.8)";
+                    ctx.fillRect(45, 385, 170, 170); // Fondo del QR para legibilidad
+                    ctx.drawImage(qrImg, 55, 395, 150, 150);
+                };
 
-        window.onload = () => { templateImg.onload = () => ctx.drawImage(templateImg, 0, 0, 1000, 600); };
+                // Textos
+                ctx.fillStyle = "white";
+                ctx.font = "bold 42px Montserrat";
+                ctx.fillText(`${m[0]} ${m[1]}`, 560, 150);
+                ctx.font = "24px Montserrat";
+                ctx.fillText(`ID: ${m[7]}`, 560, 210);
+                ctx.fillText(`${m[3]}`, 560, 250);
+                ctx.fillStyle = "#FFCD00";
+                ctx.font = "bold 28px Montserrat";
+                ctx.fillText(`${m[9]}`, 560, 310);
+            }
+        }
     </script>
 </body>
 </html>
