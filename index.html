@@ -1,64 +1,168 @@
-<script>
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv';
-    const canvas = document.getElementById('cardCanvas');
-    const ctx = canvas.getContext('2d');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVX Explorers - Club & Expediciones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; padding: 0; color: #1a1a1a;
+            background: #1a1a1a url('fondo_curvas.png') no-repeat center center fixed; 
+            background-size: cover;
+        }
+        .header-follaje, .footer-follaje { 
+            background: url('textura_follaje.png') center center; 
+            background-size: cover; 
+            border-bottom: 4px solid #FFCD00;
+            position: relative; z-index: 10;
+        }
+        .btn-caterpillar { 
+            background-color: #FFCD00; color: #000; font-weight: bold; 
+            transition: all 0.3s ease; text-align: center; border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative; z-index: 5;
+        }
+        #infoModal { 
+            display: none; position: fixed; z-index: 100; left: 0; top: 0; 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9); 
+        }
+        canvas { max-width: 100%; height: auto; border-radius: 12px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
 
-    async function checkMember() {
-        const input = document.getElementById('memberSearch').value.trim().toLowerCase();
-        if(!input) return;
-        const response = await fetch(csvUrl);
-        const data = await response.text();
-        const rows = data.split('\n').map(row => row.split(','));
-        const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
+    <header class="header-follaje p-6 text-center shadow-2xl">
+        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS</h1>
+        <p class="text-yellow-400 text-xs font-bold mt-1 tracking-widest uppercase">Club & Expediciones</p>
+        <div class="grid grid-cols-3 gap-2 mt-5 max-w-sm mx-auto">
+            <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar py-2 text-[9px]">VER VIDEO</a>
+            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar py-2 text-[9px]">BROCHURE</a>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar py-2 text-[9px]">RESERVAR</a>
+        </div>
+    </header>
 
-        if (member && member[6]?.trim() === 'Activo') {
-            document.getElementById('resultArea').classList.remove('hidden');
-            drawCard(member);
-            if (member[5]?.trim() === 'Explorer') {
-                document.getElementById('discountZone').classList.remove('hidden');
-            } else {
-                document.getElementById('discountZone').classList.add('hidden');
+    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6 mt-4">
+        <section class="glass-panel p-6 rounded-2xl border-t-4 border-yellow-500">
+            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 text-xs tracking-wider">Acceso Miembros del Club</h2>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-4 rounded-lg border border-gray-300 outline-none font-bold text-center">
+                <button onclick="checkMember()" class="btn-caterpillar px-8 py-4 uppercase text-sm">Validar</button>
+            </div>
+
+            <div id="resultArea" class="mt-8 hidden text-center">
+                <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
+                <div id="discountZone" class="hidden mt-6 p-4 bg-green-50 border-2 border-green-500 rounded-xl">
+                    <p class="text-green-800 font-bold text-sm uppercase italic">✓ Beneficio Explorer Activo (-10%)</p>
+                    <p class="text-green-700 text-[10px] mb-2 font-bold uppercase">Expedición Peregrinos del Mar (2026)</p>
+                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-4 w-full uppercase">Pagar Cuota con Descuento</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="infoModal" class="items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
+            <h3 class="text-2xl font-bold text-gray-800 uppercase">Membresía Explorer</h3>
+            <p class="text-yellow-600 font-bold">$10 USD / año</p>
+            <ul class="text-left text-sm space-y-3 text-gray-700 font-medium my-4">
+                <li>✅ 10% de Descuento en expediciones.</li>
+                <li>✅ Tarjeta Digital VIP (Guacamaya).</li>
+                <li>✅ Acceso prioritario a actividades.</li>
+                <li>✅ Revista digital “Nómadas Magazine”.</li>
+                <li>✅ Descuentos en la Guía AVX 2027.</li>
+            </ul>
+            <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full uppercase">Ir a pagar</a>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-xs underline mt-4">Volver</button>
+        </div>
+    </div>
+
+    <footer class="footer-follaje p-6 mt-8 border-t-4 border-yellow-500">
+        <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <a href="https://forms.google.com" target="_blank" class="btn-caterpillar py-4 text-[10px]">AFILIACIÓN GRATUITA</a>
+            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-4 text-[10px] uppercase font-bold">Afiliación Explorer</button>
+            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-4 flex items-center justify-center gap-2">
+                <span>💬 CONTACTAR WHATSAPP</span>
+            </a>
+        </div>
+        <div class="text-center mt-6">
+            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[11px] font-bold hover:text-yellow-400">📩 expeditions@avxexplorers.com</a>
+        </div>
+    </footer>
+
+    <script>
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv';
+        const canvas = document.getElementById('cardCanvas');
+        const ctx = canvas.getContext('2d');
+
+        async function checkMember() {
+            const input = document.getElementById('memberSearch').value.trim().toLowerCase();
+            if(!input) return;
+            try {
+                const response = await fetch(csvUrl);
+                const data = await response.text();
+                const rows = data.split('\n').map(row => row.split(','));
+                const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
+
+                if (member && member[6]?.trim() === 'Activo') {
+                    document.getElementById('resultArea').classList.remove('hidden');
+                    drawCard(member);
+                    if (member[5]?.trim() === 'Explorer') {
+                        document.getElementById('discountZone').classList.remove('hidden');
+                    } else {
+                        document.getElementById('discountZone').classList.add('hidden');
+                    }
+                } else {
+                    alert("Miembro no encontrado o pendiente de activación.");
+                }
+            } catch (e) {
+                alert("Error de conexión con la base de datos.");
             }
-        } else {
-            alert("Miembro no encontrado o pendiente de activación.");
         }
-    }
 
-    function drawCard(m) {
-        const template = new Image();
-        template.src = (m[5]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
-        template.onload = function() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(template, 0, 0, 1000, 600);
-            
-            // QR UBICADO MÁS ARRIBA (Para liberar la web inferior)
-            const qrImg = new Image();
-            qrImg.crossOrigin = "anonymous";
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
-            qrImg.onload = () => {
-                ctx.fillStyle = "rgba(255,255,255,0.85)";
-                ctx.fillRect(780, 250, 170, 170); // Caja blanca subida
-                ctx.drawImage(qrImg, 790, 260, 150, 150); // QR subido
-            };
+        function drawCard(m) {
+            const template = new Image();
+            template.src = (m[5]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
+            template.onload = function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(template, 0, 0, 1000, 600);
+                
+                const qrImg = new Image();
+                qrImg.crossOrigin = "anonymous";
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
+                qrImg.onload = () => {
+                    ctx.fillStyle = "rgba(255,255,255,0.85)";
+                    ctx.fillRect(780, 250, 170, 170); // QR subido para liberar la web
+                    ctx.drawImage(qrImg, 790, 260, 150, 150);
+                };
 
-            // 1. NOMBRE (Blanco, Bold)
-            ctx.fillStyle = "white";
-            ctx.font = "bold 42px Montserrat";
-            ctx.fillText(`${m[0]} ${m[1]}`, 560, 140);
-            
-            // 2. ID DE MIEMBRO (EL MÁS DESTACADO - Amarillo, Bold)
-            ctx.fillStyle = "#FFCD00";
-            ctx.font = "bold 48px Montserrat";
-            ctx.fillText(`ID: ${m[7]}`, 560, 210);
-            
-            // 3. PAÍS (Blanco, Normal)
-            ctx.fillStyle = "white";
-            ctx.font = "24px Montserrat";
-            ctx.fillText(`País: ${m[3]}`, 560, 260);
-            
-            // 4. FECHA VENCIMIENTO (Blanco, Más pequeño, Sin Bold)
-            ctx.font = "20px Montserrat";
-            ctx.fillText(`Vence: ${m[9]}`, 560, 300);
+                // NOMBRE
+                ctx.fillStyle = "white";
+                ctx.font = "bold 42px Montserrat";
+                ctx.fillText(`${m[0]} ${m[1]}`, 560, 140);
+                
+                // ID DESTACADO (Amarillo, Bold, Grande)
+                ctx.fillStyle = "#FFCD00";
+                ctx.font = "bold 48px Montserrat";
+                ctx.fillText(`ID: ${m[7]}`, 560, 210);
+                
+                // PAÍS (Blanco, Normal)
+                ctx.fillStyle = "white";
+                ctx.font = "24px Montserrat";
+                ctx.fillText(`País: ${m[3]}`, 560, 260);
+                
+                // VENCIMIENTO (Blanco, Discreto, Sin Bold)
+                ctx.font = "20px Montserrat";
+                ctx.fillText(`Vence: ${m[9]}`, 560, 300);
+            }
         }
-    }
-</script>
+    </script>
+</body>
+</html>
