@@ -49,20 +49,22 @@
         </div>
     </header>
 
-    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6 mt-4">
-        <section class="glass-panel p-6 rounded-2xl border-t-4 border-yellow-500">
-            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 text-xs tracking-wider">Acceso Miembros del Club</h2>
+    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-4 mt-2">
+        <section class="glass-panel p-5 rounded-2xl border-t-4 border-yellow-500">
+            <h2 class="text-center font-bold mb-3 uppercase text-gray-700 text-[10px] tracking-wider">Acceso Miembros del Club</h2>
             <div class="flex flex-col sm:flex-row gap-2">
-                <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-4 rounded-lg border border-gray-300 outline-none font-bold text-center">
-                <button onclick="checkMember()" class="btn-caterpillar px-8 py-4 uppercase text-sm">Validar</button>
+                <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-3 rounded-lg border border-gray-300 outline-none font-bold text-center text-sm">
+                <button onclick="checkMember()" class="btn-caterpillar px-6 py-3 uppercase text-xs">Validar</button>
             </div>
 
-            <div id="resultArea" class="mt-8 hidden text-center">
+            <div id="resultArea" class="mt-4 hidden text-center">
                 <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
-                <div id="discountZone" class="hidden mt-6 p-4 bg-green-50 border-2 border-green-500 rounded-xl">
-                    <p class="text-green-800 font-bold text-sm uppercase italic">✓ Beneficio Explorer Activo (-10%)</p>
-                    <p class="text-green-700 text-[10px] mb-2 font-bold uppercase">Expedición Peregrinos del Mar (2026)</p>
-                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-4 w-full uppercase">Pagar Cuota con Descuento</a>
+                
+                <div id="discountZone" class="hidden mt-3 p-3 bg-white border border-green-500 rounded-lg shadow-sm">
+                    <p class="text-green-700 font-bold text-[11px] uppercase tracking-tight">
+                        ✓ Explorer Activo: -10% en Peregrinos del Mar 2026
+                    </p>
+                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 text-blue-600 font-bold text-[10px] uppercase underline block">Pagar Cuota con Descuento</a>
                 </div>
             </div>
         </section>
@@ -84,16 +86,16 @@
         </div>
     </div>
 
-    <footer class="footer-follaje p-6 mt-8 border-t-4 border-yellow-500">
-        <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <a href="https://forms.google.com" target="_blank" class="btn-caterpillar py-4 text-[10px]">AFILIACIÓN GRATUITA</a>
-            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-4 text-[10px] uppercase font-bold">Afiliación Explorer</button>
-            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-4 flex items-center justify-center gap-2">
-                <span>💬 CONTACTAR WHATSAPP</span>
+    <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500">
+        <div class="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
+            <a href="https://forms.google.com" target="_blank" class="btn-caterpillar py-3 text-[9px]">AFILIACIÓN GRATUITA</a>
+            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[9px] uppercase font-bold">Afiliación Explorer</button>
+            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-3 flex items-center justify-center gap-2">
+                <span class="text-[10px]">💬 CONTACTAR WHATSAPP</span>
             </a>
         </div>
-        <div class="text-center mt-6">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[11px] font-bold hover:text-yellow-400">📩 expeditions@avxexplorers.com</a>
+        <div class="text-center mt-4">
+            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[10px] font-bold opacity-80">📩 expeditions@avxexplorers.com</a>
         </div>
     </footer>
 
@@ -120,10 +122,10 @@
                         document.getElementById('discountZone').classList.add('hidden');
                     }
                 } else {
-                    alert("Miembro no encontrado o pendiente de activación.");
+                    alert("Miembro no encontrado o pendiente.");
                 }
             } catch (e) {
-                alert("Error de conexión con la base de datos.");
+                alert("Error de conexión.");
             }
         }
 
@@ -139,26 +141,22 @@
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
                 qrImg.onload = () => {
                     ctx.fillStyle = "rgba(255,255,255,0.85)";
-                    ctx.fillRect(780, 250, 170, 170); // QR subido para liberar la web
+                    ctx.fillRect(780, 250, 170, 170);
                     ctx.drawImage(qrImg, 790, 260, 150, 150);
                 };
 
-                // NOMBRE
                 ctx.fillStyle = "white";
                 ctx.font = "bold 42px Montserrat";
                 ctx.fillText(`${m[0]} ${m[1]}`, 560, 140);
                 
-                // ID DESTACADO (Amarillo, Bold, Grande)
                 ctx.fillStyle = "#FFCD00";
                 ctx.font = "bold 48px Montserrat";
                 ctx.fillText(`ID: ${m[7]}`, 560, 210);
                 
-                // PAÍS (Blanco, Normal)
                 ctx.fillStyle = "white";
                 ctx.font = "24px Montserrat";
                 ctx.fillText(`País: ${m[3]}`, 560, 260);
                 
-                // VENCIMIENTO (Blanco, Discreto, Sin Bold)
                 ctx.font = "20px Montserrat";
                 ctx.fillText(`Vence: ${m[9]}`, 560, 300);
             }
