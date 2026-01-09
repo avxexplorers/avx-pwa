@@ -100,7 +100,7 @@
     </footer>
 
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv';
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv&cachebust=' + new Date().getTime();
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
 
