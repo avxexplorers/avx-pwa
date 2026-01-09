@@ -1,139 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVX Explorers Club</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-        body { font-family: 'Montserrat', sans-serif; background: #1a1a1a url('fondo_curvas.jpg') no-repeat center center fixed; background-size: cover; color: #1a1a1a; }
-        .header-follaje, .footer-follaje { background: url('textura_follaje.jpg') center center; background-size: cover; border-bottom: 4px solid #FFCD00; }
-        .btn-caterpillar { background-color: #FFCD00; color: #000; font-weight: bold; transition: all 0.3s ease; text-align: center; border-radius: 8px; }
-        .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
-        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
-        #infoModal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); }
-    </style>
-</head>
-<body class="flex flex-col min-h-screen">
-
-    <header class="header-follaje p-6 text-center shadow-lg">
-        <h1 class="text-white text-2xl font-bold tracking-tighter uppercase">Peregrinos del Mar (2026)</h1>
-        <div class="flex justify-center gap-3 mt-4">
-            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar px-4 py-2 text-xs">BROCHURE</a>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar px-4 py-2 text-xs">RESERVAR</a>
-        </div>
-    </header>
-
-    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6">
-        <section class="glass-panel p-6 rounded-2xl shadow-xl border-t-4 border-yellow-500">
-            <h2 class="text-center font-bold mb-4 uppercase text-gray-700">Validación de Miembro</h2>
-            <div class="flex gap-2">
-                <input type="text" id="memberSearch" placeholder="Email o ID" class="flex-grow p-3 rounded-lg border border-gray-300 outline-none font-bold">
-                <button onclick="checkMember()" class="btn-caterpillar px-6 py-3 uppercase text-sm">Validar</button>
-            </div>
-            <div id="resultArea" class="mt-6 hidden text-center">
-                <canvas id="cardCanvas" width="1000" height="600" class="w-full rounded-xl shadow-2xl"></canvas>
-                <div id="discountZone" class="hidden mt-4 p-4 bg-green-100 border-2 border-green-500 rounded-xl">
-                    <p class="text-green-800 font-bold text-sm uppercase">✓ Beneficio Explorer Activo (-10%)</p>
-                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-3 w-full uppercase">Pagar Cuota Fraccionada</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="infoModal" class="flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center space-y-5 shadow-2xl border-t-8 border-yellow-500">
-            <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
-            <p class="text-yellow-600 font-bold">$10 USD / año</p>
-            
-            <ul class="text-left text-sm space-y-3 text-gray-700 font-medium">
-                <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en nuestras expediciones.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo y personalizado.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario y descuentos en actividades de aventura.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Suscripción a la revista digital “Nómadas Magazine”.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX Explorers 2027.</li>
-            </ul>
-
-            <div class="pt-4 space-y-3">
-                <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full text-sm uppercase shadow-lg">Entendido, ir a pagar</a>
-                <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-xs underline hover:text-gray-600">Volver atrás</button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer-follaje p-6 mt-auto border-t-4 border-yellow-500">
-        <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <a href="TU_LINK_GOOGLE_FORM" target="_blank" class="btn-caterpillar py-3 text-[10px] flex items-center justify-center">AFILIACIÓN GRATUITA</a>
-            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[10px] uppercase">Afiliación Explorer</button>
-            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-3 flex items-center justify-center gap-2">
-                <span>💬 WHATSAPP BUSINESS</span>
-            </a>
-        </div>
-        <div class="text-center mt-4">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-xs font-bold hover:text-yellow-400 transition tracking-wide">
-                📩 expeditions@avxexplorers.com
-            </a>
-        </div>
-    </footer>
-
-    <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?output=csv';
-        const canvas = document.getElementById('cardCanvas');
-        const ctx = canvas.getContext('2d');
-
-        async function checkMember() {
-            const input = document.getElementById('memberSearch').value.trim().toLowerCase();
-            const response = await fetch(csvUrl);
-            const data = await response.text();
-            const rows = data.split('\n').map(row => row.split(','));
-            const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
-
-            if (member && member[6]?.trim() === 'Activo') {
-                document.getElementById('resultArea').classList.remove('hidden');
-                drawCard(member);
-                if (member[5]?.trim() === 'Explorer') {
-                    document.getElementById('discountZone').classList.remove('hidden');
-                } else {
-                    document.getElementById('discountZone').classList.add('hidden');
-                }
-            } else {
-                alert("Miembro no encontrado o requiere activación (Status: Pendiente).");
-            }
-        }
-
-        function drawCard(m) {
-            const template = new Image();
-            template.src = (m[5]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
-            template.onload = function() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(template, 0, 0, 1000, 600);
-                
-                const qrImg = new Image();
-                qrImg.crossOrigin = "anonymous";
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
-                qrImg.onload = () => {
-                    ctx.fillStyle = "rgba(255,255,255,0.8)";
-                    ctx.fillRect(45, 385, 170, 170);
-                    ctx.drawImage(qrImg, 55, 395, 150, 150);
-                };
-
-                ctx.fillStyle = "white";
-                ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 4;
-                ctx.font = "bold 42px Montserrat";
-                ctx.fillText(`${m[0]} ${m[1]}`, 560, 150);
-                
-                ctx.font = "24px Montserrat";
-                ctx.shadowBlur = 0;
-                ctx.fillText(`ID: ${m[7]}`, 560, 210);
-                ctx.fillText(`${m[3]}`, 560, 250);
-                
-                ctx.fillStyle = "#FFCD00";
-                ctx.font = "bold 28px Montserrat";
-                ctx.fillText(`${m[9]}`, 560, 310);
-            }
-        }
-    </script>
-</body>
-</html>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    
+    /* CAMBIO A .PNG AQUÍ */
+    body { 
+        font-family: 'Montserrat', sans-serif; 
+        background: #1a1a1a url('fondo_curvas.png') no-repeat center center fixed; 
+        background-size: cover; 
+        color: #1a1a1a; 
+    }
+    
+    .header-follaje, .footer-follaje { 
+        background: url('textura_follaje.png') center center; 
+        background-size: cover; 
+        border-bottom: 4px solid #FFCD00; 
+    }
+    
+    .btn-caterpillar { background-color: #FFCD00; color: #000; font-weight: bold; transition: all 0.3s ease; text-align: center; border-radius: 8px; }
+    .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
+    .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    #infoModal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); }
+</style>
