@@ -3,101 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVX Explorers Club</title>
+    <title>AVX Explorers - Club & Expediciones</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-        
         body { 
             font-family: 'Montserrat', sans-serif; 
-            margin: 0;
-            padding: 0;
-            color: #1a1a1a;
-            /* Fondo fijo y nítido */
+            margin: 0; padding: 0; color: #1a1a1a;
             background: #1a1a1a url('fondo_curvas.png') no-repeat center center fixed; 
             background-size: cover;
         }
-
         .header-follaje, .footer-follaje { 
             background: url('textura_follaje.png') center center; 
             background-size: cover; 
             border-bottom: 4px solid #FFCD00;
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
         }
-
         .btn-caterpillar { 
-            background-color: #FFCD00; 
-            color: #000; 
-            font-weight: bold; 
-            transition: all 0.3s ease; 
-            text-align: center; 
-            border-radius: 8px; 
+            background-color: #FFCD00; color: #000; font-weight: bold; 
+            transition: all 0.3s ease; text-align: center; border-radius: 8px; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-        
         .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
-
         .glass-panel { 
             background: rgba(255, 255, 255, 0.92); 
-            backdrop-filter: blur(10px); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-            z-index: 5;
+            backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative; z-index: 5;
         }
-
         #infoModal { 
-            display: none; 
-            position: fixed; 
-            z-index: 100; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.9); 
+            display: none; position: fixed; z-index: 100; left: 0; top: 0; 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9); 
         }
-
         canvas { max-width: 100%; height: auto; border-radius: 12px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <header class="header-follaje p-6 text-center shadow-2xl">
-        <h1 class="text-white text-2xl font-bold tracking-tighter uppercase drop-shadow-md">Peregrinos del Mar (2026)</h1>
-        <div class="flex justify-center gap-3 mt-4">
-            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar px-4 py-2 text-[10px]">BROCHURE</a>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar px-4 py-2 text-[10px]">RESERVAR</a>
+        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS</h1>
+        <p class="text-yellow-400 text-xs font-bold mt-1 tracking-widest uppercase">Club & Expediciones</p>
+        
+        <div class="grid grid-cols-3 gap-2 mt-5 max-w-sm mx-auto">
+            <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar py-2 text-[9px]">VER VIDEO</a>
+            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar py-2 text-[9px]">BROCHURE</a>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar py-2 text-[9px]">RESERVAR</a>
         </div>
     </header>
 
     <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6 mt-4">
+        
         <section class="glass-panel p-6 rounded-2xl border-t-4 border-yellow-500">
-            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 tracking-wide">Validación de Miembro</h2>
+            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 text-sm tracking-wider">Acceso Miembros del Club</h2>
             <div class="flex flex-col sm:flex-row gap-2">
                 <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-4 rounded-lg border border-gray-300 outline-none font-bold text-center">
                 <button onclick="checkMember()" class="btn-caterpillar px-8 py-4 uppercase text-sm">Validar</button>
             </div>
 
-            <div id="resultArea" class="mt-8 hidden text-center animate-fade-in">
+            <div id="resultArea" class="mt-8 hidden text-center">
                 <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
                 <div id="discountZone" class="hidden mt-6 p-4 bg-green-50 border-2 border-green-500 rounded-xl">
                     <p class="text-green-800 font-bold text-sm uppercase">✓ Beneficio Explorer Activo (-10%)</p>
-                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-4 w-full uppercase">Pagar Cuota Fraccionada</a>
+                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-4 w-full uppercase">Pagar Cuota con Descuento</a>
                 </div>
             </div>
         </section>
+
     </main>
 
     <div id="infoModal" class="items-center justify-center p-4">
         <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center space-y-5 shadow-2xl border-t-8 border-yellow-500">
             <h3 class="text-2xl font-bold text-gray-800 uppercase">Membresía Explorer</h3>
             <p class="text-yellow-600 font-bold">$10 USD / año</p>
-            <ul class="text-left text-sm space-y-3 text-gray-700">
-                <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP (Guacamaya).</li>
-                <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
+            <ul class="text-left text-sm space-y-3 text-gray-700 font-medium">
+                <li>✅ 10% de Descuento en expediciones.</li>
+                <li>✅ Tarjeta Digital VIP (Guacamaya).</li>
+                <li>✅ Acceso prioritario a actividades.</li>
+                <li>✅ Revista digital “Nómadas Magazine”.</li>
+                <li>✅ Descuentos en la Guía AVX 2027.</li>
             </ul>
             <div class="pt-4 space-y-3">
                 <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full uppercase">Ir a pagar</a>
@@ -108,14 +90,14 @@
 
     <footer class="footer-follaje p-6 mt-8 border-t-4 border-yellow-500">
         <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <a href="TU_LINK_GOOGLE_FORM" target="_blank" class="btn-caterpillar py-4 text-[10px]">AFILIACIÓN GRATUITA</a>
-            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-4 text-[10px] uppercase">Afiliación Explorer</button>
+            <a href="https://forms.google.com" target="_blank" class="btn-caterpillar py-4 text-[10px]">AFILIACIÓN GRATUITA</a>
+            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-4 text-[10px] uppercase font-bold">Afiliación Explorer</button>
             <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-4 flex items-center justify-center gap-2">
                 <span>💬 CONTACTAR WHATSAPP</span>
             </a>
         </div>
         <div class="text-center mt-6">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-xs font-bold hover:text-yellow-400 transition tracking-wider">
+            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[11px] font-bold hover:text-yellow-400 transition tracking-wider">
                 📩 expeditions@avxexplorers.com
             </a>
         </div>
@@ -128,7 +110,7 @@
 
         async function checkMember() {
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
-            if(!input) return alert("Ingresa un dato para buscar");
+            if(!input) return;
             
             try {
                 const response = await fetch(csvUrl);
@@ -148,7 +130,7 @@
                     alert("Miembro no encontrado o pendiente de activación.");
                 }
             } catch (e) {
-                alert("Error conectando con la base de datos.");
+                alert("Error de conexión.");
             }
         }
 
@@ -158,7 +140,6 @@
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
-                
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
@@ -167,7 +148,6 @@
                     ctx.fillRect(45, 385, 170, 170);
                     ctx.drawImage(qrImg, 55, 395, 150, 150);
                 };
-
                 ctx.fillStyle = "white";
                 ctx.font = "bold 42px Montserrat";
                 ctx.fillText(`${m[0]} ${m[1]}`, 560, 150);
