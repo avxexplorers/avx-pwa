@@ -42,7 +42,6 @@
     <header class="header-follaje p-6 text-center shadow-2xl">
         <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS</h1>
         <p class="text-yellow-400 text-xs font-bold mt-1 tracking-widest uppercase">Club & Expediciones</p>
-        
         <div class="grid grid-cols-3 gap-2 mt-5 max-w-sm mx-auto">
             <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar py-2 text-[9px]">VER VIDEO</a>
             <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar py-2 text-[9px]">BROCHURE</a>
@@ -51,9 +50,8 @@
     </header>
 
     <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-6 mt-4">
-        
         <section class="glass-panel p-6 rounded-2xl border-t-4 border-yellow-500">
-            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 text-sm tracking-wider">Acceso Miembros del Club</h2>
+            <h2 class="text-center font-bold mb-4 uppercase text-gray-700 text-xs tracking-wider">Acceso Miembros del Club</h2>
             <div class="flex flex-col sm:flex-row gap-2">
                 <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-4 rounded-lg border border-gray-300 outline-none font-bold text-center">
                 <button onclick="checkMember()" class="btn-caterpillar px-8 py-4 uppercase text-sm">Validar</button>
@@ -62,29 +60,27 @@
             <div id="resultArea" class="mt-8 hidden text-center">
                 <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
                 <div id="discountZone" class="hidden mt-6 p-4 bg-green-50 border-2 border-green-500 rounded-xl">
-                    <p class="text-green-800 font-bold text-sm uppercase">✓ Beneficio Explorer Activo (-10%)</p>
+                    <p class="text-green-800 font-bold text-sm uppercase italic">✓ Beneficio Explorer Activo (-10%)</p>
+                    <p class="text-green-700 text-[10px] mb-2 font-bold uppercase">Expedición Peregrinos del Mar (2026)</p>
                     <a href="https://wise.com/pay/me/germanb185" class="mt-2 btn-caterpillar inline-block px-8 py-4 w-full uppercase">Pagar Cuota con Descuento</a>
                 </div>
             </div>
         </section>
-
     </main>
 
     <div id="infoModal" class="items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center space-y-5 shadow-2xl border-t-8 border-yellow-500">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
             <h3 class="text-2xl font-bold text-gray-800 uppercase">Membresía Explorer</h3>
             <p class="text-yellow-600 font-bold">$10 USD / año</p>
-            <ul class="text-left text-sm space-y-3 text-gray-700 font-medium">
+            <ul class="text-left text-sm space-y-3 text-gray-700 font-medium my-4">
                 <li>✅ 10% de Descuento en expediciones.</li>
                 <li>✅ Tarjeta Digital VIP (Guacamaya).</li>
                 <li>✅ Acceso prioritario a actividades.</li>
                 <li>✅ Revista digital “Nómadas Magazine”.</li>
                 <li>✅ Descuentos en la Guía AVX 2027.</li>
             </ul>
-            <div class="pt-4 space-y-3">
-                <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full uppercase">Ir a pagar</a>
-                <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-xs underline">Volver</button>
-            </div>
+            <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full uppercase">Ir a pagar</a>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-xs underline mt-4">Volver</button>
         </div>
     </div>
 
@@ -97,9 +93,7 @@
             </a>
         </div>
         <div class="text-center mt-6">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[11px] font-bold hover:text-yellow-400 transition tracking-wider">
-                📩 expeditions@avxexplorers.com
-            </a>
+            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[11px] font-bold hover:text-yellow-400">📩 expeditions@avxexplorers.com</a>
         </div>
     </footer>
 
@@ -111,26 +105,21 @@
         async function checkMember() {
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
             if(!input) return;
-            
-            try {
-                const response = await fetch(csvUrl);
-                const data = await response.text();
-                const rows = data.split('\n').map(row => row.split(','));
-                const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
+            const response = await fetch(csvUrl);
+            const data = await response.text();
+            const rows = data.split('\n').map(row => row.split(','));
+            const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
 
-                if (member && member[6]?.trim() === 'Activo') {
-                    document.getElementById('resultArea').classList.remove('hidden');
-                    drawCard(member);
-                    if (member[5]?.trim() === 'Explorer') {
-                        document.getElementById('discountZone').classList.remove('hidden');
-                    } else {
-                        document.getElementById('discountZone').classList.add('hidden');
-                    }
+            if (member && member[6]?.trim() === 'Activo') {
+                document.getElementById('resultArea').classList.remove('hidden');
+                drawCard(member);
+                if (member[5]?.trim() === 'Explorer') {
+                    document.getElementById('discountZone').classList.remove('hidden');
                 } else {
-                    alert("Miembro no encontrado o pendiente de activación.");
+                    document.getElementById('discountZone').classList.add('hidden');
                 }
-            } catch (e) {
-                alert("Error de conexión.");
+            } else {
+                alert("Miembro no encontrado o pendiente de activación.");
             }
         }
 
@@ -140,23 +129,37 @@
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
+                
+                // QR REUBICADO A LA DERECHA Y MÁS ARRIBA
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
                 qrImg.onload = () => {
                     ctx.fillStyle = "rgba(255,255,255,0.85)";
-                    ctx.fillRect(45, 385, 170, 170);
-                    ctx.drawImage(qrImg, 55, 395, 150, 150);
+                    ctx.fillRect(780, 310, 170, 170); // Caja blanca derecha
+                    ctx.drawImage(qrImg, 790, 320, 150, 150); // QR derecha
                 };
+
+                // TEXTOS REUBICADOS Y MEJORADOS
                 ctx.fillStyle = "white";
-                ctx.font = "bold 42px Montserrat";
-                ctx.fillText(`${m[0]} ${m[1]}`, 560, 150);
-                ctx.font = "24px Montserrat";
-                ctx.fillText(`ID: ${m[7]}`, 560, 210);
-                ctx.fillText(`${m[3]}`, 560, 250);
+                ctx.font = "bold 44px Montserrat";
+                ctx.fillText(`${m[0]} ${m[1]}`, 60, 150);
+                
+                // ID ESTILO TARJETA DE CRÉDITO (GRANDE Y ESPACIADO)
+                ctx.font = "bold 52px Montserrat";
                 ctx.fillStyle = "#FFCD00";
+                let spacedID = m[7].split('').join('  '); // Espacia el ID para look premium
+                ctx.fillText(`${spacedID}`, 60, 240);
+                
+                // RESTO DE DATOS
+                ctx.fillStyle = "white";
+                ctx.font = "24px Montserrat";
+                ctx.fillText(`PAÍS: ${m[3]}`, 60, 300);
+                ctx.fillText(`NIVEL: ${m[5].toUpperCase()}`, 60, 340);
+                
                 ctx.font = "bold 28px Montserrat";
-                ctx.fillText(`${m[9]}`, 560, 310);
+                ctx.fillStyle = "#FFCD00";
+                ctx.fillText(`VENCE: ${m[9]}`, 60, 400);
             }
         }
     </script>
