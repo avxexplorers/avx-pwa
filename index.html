@@ -76,7 +76,7 @@
             <p class="text-yellow-600 font-bold">$10 USD / año</p>
             <ul class="text-left text-sm space-y-3 text-gray-700 font-medium my-4">
                 <li>✅ 10% de Descuento en expediciones.</li>
-                <li>✅ Tarjeta Digital VIP (Guacamaya).</li>
+                <li>✅ Tarjeta Digital VIP</li>
                 <li>✅ Acceso prioritario a actividades.</li>
                 <li>✅ Revista digital “Nómadas Magazine”.</li>
                 <li>✅ Descuentos en la Guía AVX 2027.</li>
@@ -100,6 +100,7 @@
     </footer>
 
     <script>
+        // Enlace optimizado para Hoja 1 y CSV
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=0&single=true&output=csv';
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
@@ -108,9 +109,12 @@
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
             if(!input) return;
             try {
-                const response = await fetch(csvUrl);
+                // Añadimos un pequeño truco de tiempo para evitar caché de Google
+                const response = await fetch(csvUrl + '&cache=' + new Date().getTime());
                 const data = await response.text();
                 const rows = data.split('\n').map(row => row.split(','));
+                
+                // r[2] es Email, r[7] es ID
                 const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
 
                 if (member && member[6]?.trim() === 'Activo') {
@@ -149,8 +153,9 @@
                 ctx.font = "bold 42px Montserrat";
                 ctx.fillText(`${m[0]} ${m[1]}`, 560, 140);
                 
+                // AJUSTE DE ID: Reducido de 48px a 38px para mejor margen
                 ctx.fillStyle = "#FFCD00";
-                ctx.font = "bold 48px Montserrat";
+                ctx.font = "bold 38px Montserrat"; 
                 ctx.fillText(`ID: ${m[7]}`, 560, 210);
                 
                 ctx.fillStyle = "white";
