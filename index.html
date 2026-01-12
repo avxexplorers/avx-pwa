@@ -70,26 +70,35 @@
         </section>
     </main>
 
- <div id="infoModal" class="items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
-        <h3 class="text-2xl font-bold text-gray-800 uppercase">Membresía Explorer</h3>
-        <p class="text-yellow-600 font-bold mb-4">$10 USD / año</p>
+<div id="infoModal" class="items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
+        <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
+        <p class="text-xl text-yellow-600 font-bold mb-6">$10 USD / año</p>
         
-        <ul class="text-left text-sm space-y-2 text-gray-700 font-medium my-4">
-            <li>✅ 10% de Descuento en expediciones.</li>
-            <li>✅ Tarjeta Digital VIP con diseño exclusivo.</li>
-            <li>✅ Acceso prioritario a actividades.</li>
-            <li>✅ Revista digital “Nómadas Magazine”.</li>
-            <li>✅ Descuentos en la Guía AVX Explorers 2027.</li>
+        <ul class="text-left text-base space-y-3 text-gray-700 font-medium my-6">
+            <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
+            <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo.</li>
+            <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
+            <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
+            <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
         </ul>
 
-        <div class="bg-yellow-50 p-3 rounded-lg mb-4 border border-yellow-200">
-            <p class="text-[11px] text-gray-600 font-bold uppercase mb-1">Pasos para activar:</p>
-            <p class="text-[10px] text-gray-500">1. Realiza tu pago. <br> 2. Regístrate en el formulario de afiliación. <br> 3. Envía el comprobante por WhatsApp.</p>
+        <div class="bg-yellow-50 p-5 rounded-2xl mb-6 border-2 border-yellow-200 shadow-inner">
+            <p class="text-sm text-gray-800 font-bold uppercase mb-3 tracking-wide">Pasos para activar:</p>
+            <ol class="text-left text-sm text-gray-700 space-y-2 font-semibold">
+                <li class="flex gap-2"><span class="text-yellow-600">1.</span> Realiza tu pago en el botón de abajo.</li>
+                <li class="flex gap-2"><span class="text-yellow-600">2.</span> Regístrate en el formulario de afiliación.</li>
+                <li class="flex gap-2"><span class="text-yellow-600">3.</span> Envía el comprobante por WhatsApp.</li>
+            </ol>
         </div>
 
-        <a href="https://wise.com/pay/me/germanb185" class="btn-caterpillar block py-4 w-full uppercase">Ir a pagar</a>
-        <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-xs underline mt-4">Volver</button>
+        <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-base uppercase shadow-lg">
+            Ir a pagar ahora
+        </a>
+        
+        <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-sm font-bold underline mt-6 hover:text-gray-600 transition-colors">
+            Volver al menú
+        </button>
     </div>
 </div>
 
