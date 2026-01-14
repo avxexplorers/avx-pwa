@@ -65,12 +65,13 @@
                 
                 <div class="grid grid-cols-2 gap-3 mt-4">
                     <button onclick="downloadCard()" class="bg-blue-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-blue-700">
-                        📥 Descargar Tarjeta
+                        📥 1. DESCARGAR TARJETA
                     </button>
                     <button id="shareBtn" class="bg-green-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-green-700">
-                        📢 Compartir Tarjeta
+                        📢 2. COMPARTIR EN REDES
                     </button>
                 </div>
+                <p class="text-[9px] text-gray-500 mt-2 italic font-bold">Tip: Descarga la imagen para publicarla en Instagram o Facebook.</p>
 
                 <div id="discountZone" class="hidden mt-4 p-3 bg-white border border-green-500 rounded-lg shadow-sm">
                     <p class="text-green-700 font-bold text-[11px] uppercase tracking-tight">
@@ -82,30 +83,11 @@
         </section>
     </main>
 
-    <div id="infoModal" class="items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
-            <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
-            <p class="text-xl text-yellow-600 font-bold mb-6">$10 USD / año</p>
-            <ul class="text-left text-base space-y-3 text-gray-700 font-medium my-6">
-                <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
-            </ul>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-lg uppercase shadow-lg font-bold">IR A PAGAR AHORA</a>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-sm font-bold underline mt-6">Volver al menú</button>
-        </div>
-    </div>
-
     <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500 text-center">
         <h2 class="text-white text-lg font-bold tracking-widest uppercase mb-4">¡ÚNETE AL EQUIPO!</h2>
         <div class="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-caterpillar py-3 text-[9px]">AFILIACIÓN GRATUITA</a>
             <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[9px] uppercase font-bold">Afiliación Explorer</button>
-        </div>
-        <div class="text-center mt-4">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[10px] font-bold opacity-80">📩 expeditions@avxexplorers.com</a>
         </div>
     </footer>
 
@@ -129,18 +111,10 @@
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
                     document.getElementById('shareBtn').onclick = shareCard;
-                    
-                    if (member[6]?.trim() === 'Explorer') {
-                        document.getElementById('discountZone').classList.remove('hidden');
-                    } else {
-                        document.getElementById('discountZone').classList.add('hidden');
-                    }
                 } else {
                     alert("Miembro no encontrado o pendiente.");
                 }
-            } catch (e) {
-                alert("Error de conexión.");
-            }
+            } catch (e) { alert("Error de conexión."); }
         }
 
         function drawCard(m) {
@@ -172,18 +146,14 @@
         }
 
         async function shareCard() {
-            const shareData = {
-                title: 'Mi Membresía AVX Explorers',
-                text: `¡Hola! Soy parte de AVX Explorers Club. Mira mi tarjeta digital. Mi ID es: ${currentMember[8]}`,
-                url: window.location.href
-            };
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    window.open(`https://wa.me/?text=${encodeURIComponent(shareData.text + " " + shareData.url)}`, '_blank');
-                }
-            } catch (err) { console.log(err); }
+            const textToShare = `¡Mira mi tarjeta de AVX Explorers Club! Mi ID es: ${currentMember[8]}. Únete aquí: ${window.location.href}`;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'AVX Explorers', text: textToShare, url: window.location.href });
+                } catch (err) { console.log(err); }
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(textToShare)}`, '_blank');
+            }
         }
 
         function downloadCard() {
