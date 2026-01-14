@@ -41,8 +41,8 @@
 <body class="flex flex-col min-h-screen">
 
     <header class="header-follaje p-6 text-center shadow-2xl">
-        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS</h1>
-        <p class="text-yellow-400 text-xs font-bold mt-1 tracking-widest uppercase">Club & Expediciones</p>
+        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS CLUB</h1>
+        <p class="text-yellow-400 text-[10px] font-bold mt-1 tracking-widest uppercase">ENLACES A NUESTRA PRÓXIMA EXPEDICIÓN</p>
         <div class="grid grid-cols-3 gap-2 mt-5 max-w-sm mx-auto">
             <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar py-2 text-[9px]">VER VIDEO</a>
             <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar py-2 text-[9px]">BROCHURE</a>
@@ -68,7 +68,7 @@
                         📥 Descargar Tarjeta
                     </button>
                     <button id="shareBtn" class="bg-green-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-green-700">
-                        📢 Compartir en WhatsApp
+                        📢 Compartir Tarjeta
                     </button>
                 </div>
 
@@ -98,15 +98,18 @@
         </div>
     </div>
 
-    <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500">
+    <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500 text-center">
+        <h2 class="text-white text-lg font-bold tracking-widest uppercase mb-4">¡ÚNETE AL EQUIPO!</h2>
         <div class="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-caterpillar py-3 text-[9px]">AFILIACIÓN GRATUITA</a>
             <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[9px] uppercase font-bold">Afiliación Explorer</button>
         </div>
+        <div class="text-center mt-4">
+            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[10px] font-bold opacity-80">📩 expeditions@avxexplorers.com</a>
+        </div>
     </footer>
 
     <script>
-        // URL de tu Hoja 1 publicada como CSV
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=1555016917&single=true&output=csv';
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
@@ -119,21 +122,14 @@
                 const response = await fetch(csvUrl + '&cache=' + new Date().getTime());
                 const data = await response.text();
                 const rows = data.split('\n').map(row => row.split(','));
-                
-                // AJUSTE DE COLUMNAS: r[3] es Email (Col D), r[8] es ID (Col I)
                 const member = rows.find(r => r[3]?.trim().toLowerCase() === input || r[8]?.trim().toLowerCase() === input);
 
                 if (member && member[7]?.trim() === 'Activo') {
                     currentMember = member;
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
+                    document.getElementById('shareBtn').onclick = shareCard;
                     
-                    // Configurar el botón de compartir
-                    const shareText = `¡Hola! Ya soy parte de AVX Explorers. Mira mi tarjeta digital aquí. Mi ID es: ${member[8]}`;
-                    document.getElementById('shareBtn').onclick = () => {
-                        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
-                    };
-
                     if (member[6]?.trim() === 'Explorer') {
                         document.getElementById('discountZone').classList.remove('hidden');
                     } else {
@@ -143,19 +139,16 @@
                     alert("Miembro no encontrado o pendiente.");
                 }
             } catch (e) {
-                alert("Error de conexión con la base de datos.");
+                alert("Error de conexión.");
             }
         }
 
         function drawCard(m) {
             const template = new Image();
-            // m[6] es el Tipo de Registro (Explorer o Adventure)
             template.src = (m[6]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
-            
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
-                
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[8]}`;
@@ -164,23 +157,33 @@
                     ctx.fillRect(780, 250, 170, 170);
                     ctx.drawImage(qrImg, 790, 260, 150, 150);
                 };
-
                 ctx.fillStyle = "white";
                 ctx.font = "bold 42px Montserrat";
-                // m[1] Nombre, m[2] Apellido
                 ctx.fillText(`${m[1]} ${m[2]}`, 560, 140);
-                
                 ctx.fillStyle = "#FFCD00";
                 ctx.font = "bold 38px Montserrat"; 
-                ctx.fillText(`ID: ${m[8]}`, 560, 210); // Columna I
-                
+                ctx.fillText(`ID: ${m[8]}`, 560, 210);
                 ctx.fillStyle = "white";
                 ctx.font = "24px Montserrat";
-                ctx.fillText(`País: ${m[4]}`, 560, 260); // Columna E
-                
+                ctx.fillText(`País: ${m[4]}`, 560, 260);
                 ctx.font = "20px Montserrat";
-                ctx.fillText(`Vence: ${m[10]}`, 560, 300); // Columna K
+                ctx.fillText(`Vence: ${m[10]}`, 560, 300);
             }
+        }
+
+        async function shareCard() {
+            const shareData = {
+                title: 'Mi Membresía AVX Explorers',
+                text: `¡Hola! Soy parte de AVX Explorers Club. Mira mi tarjeta digital. Mi ID es: ${currentMember[8]}`,
+                url: window.location.href
+            };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    window.open(`https://wa.me/?text=${encodeURIComponent(shareData.text + " " + shareData.url)}`, '_blank');
+                }
+            } catch (err) { console.log(err); }
         }
 
         function downloadCard() {
