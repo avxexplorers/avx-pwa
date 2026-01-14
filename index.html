@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AVX Explorers - Club & Expediciones</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
         body { 
@@ -58,9 +59,20 @@
             </div>
 
             <div id="resultArea" class="mt-4 hidden text-center">
-                <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
+                <div id="downloadContainer" class="inline-block">
+                    <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
+                </div>
                 
-                <div id="discountZone" class="hidden mt-3 p-3 bg-white border border-green-500 rounded-lg shadow-sm">
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button onclick="downloadCard()" class="bg-blue-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-blue-700">
+                        📥 Descargar Tarjeta
+                    </button>
+                    <button id="shareBtn" class="bg-green-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-green-700">
+                        📢 Compartir en WhatsApp
+                    </button>
+                </div>
+
+                <div id="discountZone" class="hidden mt-4 p-3 bg-white border border-green-500 rounded-lg shadow-sm">
                     <p class="text-green-700 font-bold text-[11px] uppercase tracking-tight">
                         ✓ Explorer Activo: -10% en Peregrinos del Mar 2026
                     </p>
@@ -70,80 +82,59 @@
         </section>
     </main>
 
-<div id="infoModal" class="items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
-        <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
-        <p class="text-xl text-yellow-600 font-bold mb-6">$10 USD / año</p>
-        
-        <ul class="text-left text-base space-y-3 text-gray-700 font-medium my-6">
-            <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
-            <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo.</li>
-            <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
-            <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
-            <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
-        </ul>
-
-        <div class="bg-yellow-50 p-5 rounded-2xl mb-6 border-2 border-yellow-200 shadow-inner">
-            <p class="text-sm text-gray-800 font-bold uppercase mb-3 tracking-wide">Pasos para activar:</p>
-            <ol class="text-left text-sm text-gray-700 space-y-3 font-semibold">
-                <li class="flex gap-2"><span class="text-yellow-600">1.</span> Realiza tu pago en el botón de abajo.</li>
-                <li class="flex flex-col">
-                    <div class="flex gap-2">
-                        <span class="text-yellow-600">2.</span> 
-                        <span>Regístrate en el formulario:</span>
-                    </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="ml-6 mt-1 text-blue-600 underline font-bold decoration-2">
-                        👉 Click aquí para Registrarse
-                    </a>
-                </li>
-                <li class="flex gap-2"><span class="text-yellow-600">3.</span> Envía el comprobante por WhatsApp.</li>
-            </ol>
+    <div id="infoModal" class="items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
+            <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
+            <p class="text-xl text-yellow-600 font-bold mb-6">$10 USD / año</p>
+            <ul class="text-left text-base space-y-3 text-gray-700 font-medium my-6">
+                <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
+                <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo.</li>
+                <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
+                <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
+                <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
+            </ul>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-lg uppercase shadow-lg font-bold">IR A PAGAR AHORA</a>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-sm font-bold underline mt-6">Volver al menú</button>
         </div>
-
-        <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-lg uppercase shadow-lg font-bold">
-            IR A PAGAR AHORA
-        </a>
-        
-        <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-sm font-bold underline mt-6 hover:text-gray-600 transition-colors">
-            Volver al menú
-        </button>
     </div>
-</div>
+
     <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500">
         <div class="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-caterpillar py-3 text-[9px]">AFILIACIÓN GRATUITA</a>
             <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[9px] uppercase font-bold">Afiliación Explorer</button>
-            <a href="https://wa.me/50663607517" target="_blank" class="col-span-2 btn-caterpillar py-3 flex items-center justify-center gap-2">
-                <span class="text-[10px]">💬 CONTACTAR WHATSAPP</span>
-            </a>
-        </div>
-        <div class="text-center mt-4">
-            <a href="mailto:expeditions@avxexplorers.com" class="text-white text-[10px] font-bold opacity-80">📩 expeditions@avxexplorers.com</a>
         </div>
     </footer>
 
     <script>
-        // Enlace optimizado para Hoja 1 y CSV
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=0&single=true&output=csv';
+        // URL de tu Hoja 1 publicada como CSV
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=1555016917&single=true&output=csv';
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
+        let currentMember = null;
 
         async function checkMember() {
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
             if(!input) return;
             try {
-                // Añadimos un pequeño truco de tiempo para evitar caché de Google
                 const response = await fetch(csvUrl + '&cache=' + new Date().getTime());
                 const data = await response.text();
                 const rows = data.split('\n').map(row => row.split(','));
                 
-                // r[2] es Email, r[7] es ID
-                const member = rows.find(r => r[2]?.trim().toLowerCase() === input || r[7]?.trim().toLowerCase() === input);
+                // AJUSTE DE COLUMNAS: r[3] es Email (Col D), r[8] es ID (Col I)
+                const member = rows.find(r => r[3]?.trim().toLowerCase() === input || r[8]?.trim().toLowerCase() === input);
 
-                if (member && member[6]?.trim() === 'Activo') {
+                if (member && member[7]?.trim() === 'Activo') {
+                    currentMember = member;
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
-                    if (member[5]?.trim() === 'Explorer') {
+                    
+                    // Configurar el botón de compartir
+                    const shareText = `¡Hola! Ya soy parte de AVX Explorers. Mira mi tarjeta digital aquí. Mi ID es: ${member[8]}`;
+                    document.getElementById('shareBtn').onclick = () => {
+                        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+                    };
+
+                    if (member[6]?.trim() === 'Explorer') {
                         document.getElementById('discountZone').classList.remove('hidden');
                     } else {
                         document.getElementById('discountZone').classList.add('hidden');
@@ -152,20 +143,22 @@
                     alert("Miembro no encontrado o pendiente.");
                 }
             } catch (e) {
-                alert("Error de conexión.");
+                alert("Error de conexión con la base de datos.");
             }
         }
 
         function drawCard(m) {
             const template = new Image();
-            template.src = (m[5]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
+            // m[6] es el Tipo de Registro (Explorer o Adventure)
+            template.src = (m[6]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
+            
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
                 
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[7]}`;
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[8]}`;
                 qrImg.onload = () => {
                     ctx.fillStyle = "rgba(255,255,255,0.85)";
                     ctx.fillRect(780, 250, 170, 170);
@@ -174,20 +167,27 @@
 
                 ctx.fillStyle = "white";
                 ctx.font = "bold 42px Montserrat";
-                ctx.fillText(`${m[0]} ${m[1]}`, 560, 140);
+                // m[1] Nombre, m[2] Apellido
+                ctx.fillText(`${m[1]} ${m[2]}`, 560, 140);
                 
-                // AJUSTE DE ID: Reducido de 48px a 38px para mejor margen
                 ctx.fillStyle = "#FFCD00";
                 ctx.font = "bold 38px Montserrat"; 
-                ctx.fillText(`ID: ${m[7]}`, 560, 210);
+                ctx.fillText(`ID: ${m[8]}`, 560, 210); // Columna I
                 
                 ctx.fillStyle = "white";
                 ctx.font = "24px Montserrat";
-                ctx.fillText(`País: ${m[3]}`, 560, 260);
+                ctx.fillText(`País: ${m[4]}`, 560, 260); // Columna E
                 
                 ctx.font = "20px Montserrat";
-                ctx.fillText(`Vence: ${m[9]}`, 560, 300);
+                ctx.fillText(`Vence: ${m[10]}`, 560, 300); // Columna K
             }
+        }
+
+        function downloadCard() {
+            const link = document.createElement('a');
+            link.download = `Tarjeta_AVX_${currentMember[8]}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         }
     </script>
 </body>
