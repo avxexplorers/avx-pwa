@@ -142,10 +142,14 @@
 
         function drawCard(m) {
             const template = new Image();
-            template.src = (m[6]?.trim() === 'Explorer') ? 'TEMPLATE_VIP_CARD.png' : 'TEMPLATE_AVX_CARDCLUB.png';
+            // Nombres actualizados según tus archivos nuevos
+            template.src = (m[6]?.trim() === 'Explorer') ? 'CARDCLUB EXPLORER.png' : 'CARDCLUB STANDART.png';
+            
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
+                
+                // --- Generación de QR ---
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[8]}`;
@@ -154,17 +158,23 @@
                     ctx.fillRect(780, 250, 170, 170);
                     ctx.drawImage(qrImg, 790, 260, 150, 150);
                 };
-                ctx.fillStyle = "white";
-                ctx.font = "bold 42px Montserrat";
-                ctx.fillText(`${m[1]} ${m[2]}`, 560, 140);
+
+                // --- TEXTO: NOMBRE (Ajustado a Blanco, más pequeño y centrado a la izquierda) ---
+                ctx.fillStyle = "#FFFFFF"; // Blanco Sólido solicitado
+                ctx.font = "bold 32px Montserrat"; // Reducido de 42px a 32px para nombres largos
+                ctx.fillText(`${m[1]} ${m[2]}`, 480, 140); // Movido de 560 a 480 (más al centro/izquierda)
+
+                // --- TEXTO: ID (En Amarillo Caterpillar) ---
                 ctx.fillStyle = "#FFCD00";
-                ctx.font = "bold 38px Montserrat"; 
-                ctx.fillText(`ID: ${m[8]}`, 560, 210);
-                ctx.fillStyle = "white";
-                ctx.font = "24px Montserrat";
-                ctx.fillText(`País: ${m[4]}`, 560, 260);
-                ctx.font = "20px Montserrat";
-                ctx.fillText(`Vence: ${m[10]}`, 560, 300);
+                ctx.font = "bold 36px Montserrat"; 
+                ctx.fillText(`ID: ${m[8]}`, 480, 205);
+
+                // --- TEXTO: PAÍS Y VENCIMIENTO ---
+                ctx.fillStyle = "#FFFFFF";
+                ctx.font = "22px Montserrat";
+                ctx.fillText(`País: ${m[4]}`, 480, 255);
+                ctx.font = "18px Montserrat";
+                ctx.fillText(`Vence: ${m[10]}`, 480, 295);
             }
         }
 
