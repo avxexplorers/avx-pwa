@@ -12,100 +12,109 @@
         body { 
             font-family: 'Montserrat', sans-serif; 
             margin: 0; padding: 0; color: #ffffff;
-            /* Degradado radial elegante que simula iluminación de estudio */
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            background-color: #000000;
+            background-image: url('fondo_curvas2.jpg'); 
+            background-repeat: no-repeat;
+            background-position: center center;
             background-attachment: fixed;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
         
-        /* Botones con bordes finos y limpios */
         .btn-outline-yellow {
-            border: 1px solid #FFCD00;
+            border: 1.5px solid #FFCD00;
             color: #FFCD00;
-            background: transparent;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            font-weight: 700;
+            background: rgba(0,0,0,0.6);
+            transition: all 0.3s;
+            border-radius: 8px;
+            font-weight: bold;
             text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1.5px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .btn-outline-yellow:hover { background: #FFCD00; color: #000; }
 
         .btn-solid-yellow {
             background-color: #FFCD00;
             color: #000;
-            font-weight: 700;
-            border-radius: 6px;
+            font-weight: bold;
+            border-radius: 8px;
             text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1.5px;
+            font-size: 10px;
+            letter-spacing: 1px;
             transition: all 0.3s;
         }
 
-        /* Contenedor central minimalista */
         .main-container {
-            border: 1px solid rgba(255, 205, 0, 0.3);
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 30px;
+            border: 1px solid #FFCD00;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         #memberSearch {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            border-radius: 6px;
-            transition: border 0.3s;
+            border-radius: 8px;
         }
-        #memberSearch:focus { border: 1px solid #FFCD00; }
 
-        canvas { width: 100%; border-radius: 10px; margin-top: 15px; }
+        canvas { width: 100%; border-radius: 12px; margin-top: 10px; }
 
         #infoModal { 
             display: none; position: fixed; z-index: 100; left: 0; top: 0; 
-            width: 100%; height: 100%; background: rgba(0,0,0,0.98); 
-            align-items: center; justify-content: center;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.96); 
+            backdrop-filter: blur(10px); align-items: center; justify-content: center;
         }
     </style>
 </head>
 <body class="p-6">
 
-    <header class="w-full max-w-md flex justify-center mb-10 mt-6">
-        <img src="logo_dual.png" alt="AVX Nómadas" class="h-20 w-auto">
+    <header class="w-full max-w-md flex justify-center mb-8 mt-4">
+        <img src="logo_dual.png" alt="AVX Nómadas" class="h-16 w-auto object-contain">
     </header>
 
-    <div class="w-full max-w-md grid grid-cols-2 gap-4 mb-8">
+    <div class="w-full max-w-md grid grid-cols-2 gap-3 mb-6">
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-outline-yellow py-4 text-center">Afiliación Gratuita</a>
         <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-outline-yellow py-4">Afiliación Explorer</button>
     </div>
 
     <main class="main-container">
-        <p class="text-[10px] text-center uppercase tracking-[0.3em] text-gray-500 mb-6 font-bold">Validación de Credencial</p>
-        
-        <div class="flex flex-col gap-4">
-            <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="p-4 text-center text-sm outline-none">
-            <button onclick="checkMember()" class="btn-solid-yellow py-4 text-xs">Validar Ahora</button>
+        <p class="text-[9px] text-center uppercase tracking-[0.2em] text-yellow-500 mb-4 font-bold">Acceso a Miembros del Club</p>
+        <div class="flex flex-col gap-3">
+            <div class="flex gap-2">
+                <input type="text" id="memberSearch" placeholder="Email o ID" class="flex-grow p-3 text-center text-sm outline-none focus:border-yellow-500">
+                <button onclick="checkMember()" class="btn-solid-yellow px-6 py-3 text-xs">Validar</button>
+            </div>
         </div>
-
-        <div id="resultArea" class="hidden mt-8">
+        <div id="resultArea" class="hidden mt-6">
             <canvas id="cardCanvas" width="1000" height="600"></canvas>
             <div class="grid grid-cols-2 gap-3 mt-6">
-                <button onclick="downloadCard()" class="btn-outline-yellow py-3 text-[10px]">Descargar</button>
-                <button onclick="shareCard()" class="btn-outline-yellow py-3 text-[10px]">Compartir</button>
+                <button onclick="downloadCard()" class="btn-outline-yellow py-3 text-[9px]">Descargar Tarjeta</button>
+                <button onclick="shareCard()" class="btn-outline-yellow py-3 text-[9px]">Compartir</button>
             </div>
         </div>
     </main>
 
-<section class="w-full max-w-md mt-10 text-center">
-        <h3 class="text-xl font-bold tracking-[0.1em] uppercase mb-5">¡Ven con nosotros!</h3>
+    <section class="w-full max-w-md mt-10 text-center">
+        <h3 class="text-xl font-bold tracking-[0.1em] uppercase mb-5 italic">¡Ven con nosotros!</h3>
         <div class="grid grid-cols-2 gap-3">
             <a href="https://heyzine.com/flip-book/73a3d87016.html#page/1" target="_blank" class="btn-outline-yellow py-4 text-center">Próxima Expedición</a>
             <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-outline-yellow py-4 text-center">Reservar Cupo</a>
@@ -118,21 +127,20 @@
     </section>
 
     <div id="infoModal">
-        <div class="main-container text-center mx-4 border-yellow-500">
+        <div class="main-container text-center mx-4">
             <h3 class="text-xl font-bold text-yellow-500 uppercase mb-4">Membresía Explorer</h3>
-            <p class="text-[12px] text-gray-400 mb-8 italic">Acceso total a la experiencia AVX.</p>
-            <ul class="text-left text-[11px] space-y-4 text-gray-300 mb-8 border-l-2 border-yellow-500 pl-6">
+            <p class="text-[11px] text-gray-300 mb-6 italic">Acceso total a la experiencia AVX.</p>
+            <ul class="text-left text-[11px] space-y-4 text-gray-200 mb-8 border-l border-yellow-500/30 pl-4">
                 <li>✓ 10% OFF en Expediciones</li>
                 <li>✓ Credencial Diseño Premium</li>
                 <li>✓ Revista Nómadas Digital</li>
             </ul>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-solid-yellow block py-4 w-full mb-4 text-center">Pagar $10 USD</a>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-500 text-[10px] uppercase font-bold">Cerrar</button>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-solid-yellow block py-4 w-full mb-4 text-center">Activar por $10 USD</a>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-500 text-[10px] uppercase underline font-bold">Volver</button>
         </div>
     </div>
 
     <script>
-        // ... (Script de validación igual al anterior, asegurando funcionalidad)
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=1555016917&single=true&output=csv';
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
@@ -146,12 +154,11 @@
                 const data = await response.text();
                 const rows = data.split('\n').map(row => row.split(','));
                 const member = rows.find(r => r[3]?.trim().toLowerCase() === input || r[8]?.trim().toLowerCase() === input);
-
                 if (member && member[7]?.trim() === 'Activo') {
                     currentMember = member;
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
-                } else { alert("No se encontró una membresía activa."); }
+                } else { alert("Membresía no activa."); }
             } catch (e) { alert("Error de conexión."); }
         }
 
@@ -191,9 +198,9 @@
         }
 
         async function shareCard() {
-            const text = `Mi credencial AVX: ${currentMember[8]}`;
+            const text = `Mi credencial AVX Explorers: ${currentMember[8]}`;
             if (navigator.share) {
-                navigator.share({ title: 'AVX Explorers', text: text, url: window.location.href });
+                try { await navigator.share({ title: 'AVX Card', text: text, url: window.location.href }); } catch (err) {}
             } else {
                 window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + window.location.href)}`, '_blank');
             }
