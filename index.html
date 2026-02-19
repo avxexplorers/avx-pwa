@@ -10,109 +10,121 @@
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
         body { 
             font-family: 'Montserrat', sans-serif; 
-            margin: 0; padding: 0; color: #1a1a1a;
-            background: #1a1a1a url('fondo_curvas.png') no-repeat center center fixed; 
+            margin: 0; padding: 0; color: #ffffff;
+            background: #0f0f0f url('fondo_curvas.jpg') no-repeat center center fixed; 
             background-size: cover;
         }
-        .header-follaje, .footer-follaje { 
-            background: url('textura_follaje.png') center center; 
-            background-size: cover; 
-            border-bottom: 4px solid #FFCD00;
-            position: relative; z-index: 10;
+        
+        /* Botón Estilo Borde Amarillo */
+        .btn-outline-yellow {
+            border: 1.5px solid #FFCD00;
+            color: #FFCD00;
+            background: rgba(0,0,0,0.6);
+            transition: all 0.3s;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
         }
-        .btn-caterpillar { 
-            background-color: #FFCD00; color: #000; font-weight: bold; 
-            transition: all 0.3s ease; text-align: center; border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        .btn-outline-yellow:hover { background: #FFCD00; color: #000; }
+
+        /* Botón Estilo Sólido Amarillo */
+        .btn-solid-yellow {
+            background-color: #FFCD00;
+            color: #000;
+            font-weight: bold;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
         }
-        .btn-caterpillar:hover { background-color: #e5b800; transform: translateY(-2px); }
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.92); 
-            backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative; z-index: 5;
+        .btn-solid-yellow:hover { background-color: #ffffff; transform: translateY(-1px); }
+
+        /* Contenedor con borde amarillo */
+        .main-container {
+            border: 1px solid #FFCD00;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px;
         }
+
+        #memberSearch {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+        }
+
+        canvas { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
         #infoModal { 
             display: none; position: fixed; z-index: 100; left: 0; top: 0; 
-            width: 100%; height: 100%; background: rgba(0,0,0,0.9); 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.96); 
+            backdrop-filter: blur(10px);
         }
-        canvas { max-width: 100%; height: auto; border-radius: 12px; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="p-6 flex flex-col items-center min-h-screen">
 
-    <header class="header-follaje p-6 text-center shadow-2xl">
-        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-md">AVX EXPLORERS CLUB</h1>
-        <p class="text-yellow-400 text-[10px] font-bold mt-1 tracking-widest uppercase">ENLACES A NUESTRA PRÓXIMA EXPEDICIÓN</p>
-        <div class="grid grid-cols-3 gap-2 mt-5 max-w-sm mx-auto">
-            <a href="https://www.youtube.com/watch?v=WtNhR3ZjVvI" target="_blank" class="btn-caterpillar py-2 text-[9px]">VER VIDEO</a>
-            <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-caterpillar py-2 text-[9px]">BROCHURE</a>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar py-2 text-[9px]">RESERVAR</a>
-        </div>
+    <header class="w-full max-w-md flex justify-center mb-8">
+        <img src="logo_dual.png" alt="AVX Nómadas" class="h-16 w-auto object-contain">
     </header>
 
-    <main class="flex-grow p-4 max-w-2xl mx-auto w-full space-y-4 mt-2">
-        <section class="glass-panel p-5 rounded-2xl border-t-4 border-yellow-500">
-            <h2 class="text-center font-bold mb-3 uppercase text-gray-700 text-[10px] tracking-wider">Acceso Miembros del Club</h2>
-            <div class="flex flex-col sm:flex-row gap-2">
-                <input type="text" id="memberSearch" placeholder="Email o ID de Miembro" class="flex-grow p-3 rounded-lg border border-gray-300 outline-none font-bold text-center text-sm">
-                <button onclick="checkMember()" class="btn-caterpillar px-6 py-3 uppercase text-xs">Validar</button>
-            </div>
-
-            <div id="resultArea" class="mt-4 hidden text-center">
-                <div id="downloadContainer" class="inline-block">
-                    <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl border border-gray-200"></canvas>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3 mt-4">
-                    <button onclick="downloadCard()" class="bg-blue-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-blue-700">
-                        📥 1. DESCARGAR TARJETA
-                    </button>
-                    <button id="shareBtn" class="bg-green-600 text-white font-bold py-3 rounded-lg text-[10px] uppercase shadow-md hover:bg-green-700">
-                        📢 2. COMPARTIR EN REDES
-                    </button>
-                </div>
-                <p class="text-[9px] text-gray-500 mt-2 italic font-bold">Sugerencia: Descarga la imagen para publicarla en Instagram o Facebook.</p>
-
-                <div id="discountZone" class="hidden mt-4 p-3 bg-white border border-green-500 rounded-lg shadow-sm">
-                    <p class="text-green-700 font-bold text-[11px] uppercase tracking-tight">
-                        ✓ Explorer Activo: -10% en Peregrinos del Mar 2026
-                    </p>
-                    <a href="https://wise.com/pay/me/germanb185" class="mt-2 text-blue-600 font-bold text-[10px] uppercase underline block">Pagar Cuota con Descuento</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="infoModal" class="items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-t-8 border-yellow-500">
-            <h3 class="text-2xl font-bold text-gray-800 uppercase tracking-tight">Membresía Explorer</h3>
-            <p class="text-xl text-yellow-600 font-bold mb-6">$10 USD / año</p>
-            <ul class="text-left text-base space-y-3 text-gray-700 font-medium my-6">
-                <li class="flex items-start gap-2"><span>✅</span> 10% de Descuento en expediciones.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Tarjeta Digital VIP con diseño exclusivo.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Acceso prioritario a actividades.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Revista digital “Nómadas Magazine”.</li>
-                <li class="flex items-start gap-2"><span>✅</span> Descuentos en la Guía AVX 2027.</li>
-            </ul>
-            
-            <div class="bg-yellow-50 p-4 rounded-xl mb-4 border border-yellow-200">
-                <p class="text-[10px] font-bold uppercase mb-2">Para activar:</p>
-                <p class="text-[10px] mb-2">1. Paga tu cuota. 2. Regístrate abajo.</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="text-blue-600 font-bold underline text-[11px]">👉 CLICK AQUÍ PARA REGISTRARSE</a>
-            </div>
-
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-lg uppercase shadow-lg font-bold">IR A PAGAR AHORA</a>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-400 text-sm font-bold underline mt-6">Volver al menú</button>
-        </div>
+    <div class="w-full max-w-md grid grid-cols-2 gap-3 mb-6">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-outline-yellow py-4 text-center">Afiliación Gratuita</a>
+        <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-outline-yellow py-4">Afiliación Explorer</button>
     </div>
 
-    <footer class="footer-follaje p-5 mt-auto border-t-4 border-yellow-500 text-center">
-        <h2 class="text-white text-lg font-bold tracking-widest uppercase mb-4">¡ÚNETE AL EQUIPO!</h2>
-        <div class="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-caterpillar py-3 text-[9px]">AFILIACIÓN GRATUITA</a>
-            <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-caterpillar py-3 text-[9px] uppercase font-bold">Afiliación Explorer</button>
+    <main class="w-full max-w-md main-container">
+        <p class="text-[9px] text-center uppercase tracking-[0.2em] text-yellow-500 mb-4 font-bold">Acceso a Miembros del Club</p>
+        
+        <div class="flex flex-col gap-3">
+            <div class="flex gap-2">
+                <input type="text" id="memberSearch" placeholder="Email o ID" class="flex-grow p-3 text-center text-sm outline-none focus:border-yellow-500">
+                <button onclick="checkMember()" class="btn-solid-yellow px-6 py-3 text-xs">Validar</button>
+            </div>
         </div>
-    </footer>
+
+        <div id="resultArea" class="hidden mt-6">
+            <canvas id="cardCanvas" width="1000" height="600"></canvas>
+            
+            <div class="grid grid-cols-2 gap-3 mt-6">
+                <button onclick="downloadCard()" class="btn-outline-yellow py-3 text-[9px]">Descargar Tarjeta</button>
+                <button id="shareBtn" onclick="shareCard()" class="btn-outline-yellow py-3 text-[9px]">Compartir</button>
+            </div>
+        </div>
+    </main>
+
+    <section class="w-full max-w-md mt-10 text-center">
+        <h3 class="text-xl font-bold tracking-[0.1em] uppercase mb-5">¡Ven con nosotros!</h3>
+        <div class="grid grid-cols-2 gap-3">
+            <a href="https://heyzine.com/flip-book/73a3d87016.html#page/1" target="_blank" class="btn-outline-yellow py-4 text-center">Próxima Expedición</a>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-outline-yellow py-4 text-center">Reservar Cupo</a>
+        </div>
+        <p class="text-[8px] text-gray-500 mt-8 tracking-widest uppercase">AVX EXPLORERS CLUB • NÓMADAS MAGAZINE</p>
+    </section>
+
+    <div id="infoModal" class="items-center justify-center p-6">
+        <div class="main-container max-w-sm w-full text-center">
+            <h3 class="text-xl font-bold text-yellow-500 uppercase mb-4">Membresía Explorer</h3>
+            <p class="text-[11px] text-gray-300 mb-6 italic">Lleva tu experiencia al siguiente nivel con beneficios exclusivos.</p>
+            <ul class="text-left text-[11px] space-y-4 text-gray-200 mb-8 border-l border-yellow-500/30 pl-4">
+                <li><span class="text-yellow-500">✓</span> 10% Descuento en Expediciones</li>
+                <li><span class="text-yellow-500">✓</span> Tarjeta Digital Diseño VIP</li>
+                <li><span class="text-yellow-500">✓</span> Suscripción Nómadas Magazine</li>
+            </ul>
+            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-solid-yellow block py-4 w-full mb-4">Activar por $10 USD</a>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-500 text-[10px] uppercase underline font-bold">Volver</button>
+        </div>
+    </div>
 
     <script>
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=1555016917&single=true&output=csv';
@@ -133,23 +145,20 @@
                     currentMember = member;
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
-                    document.getElementById('shareBtn').onclick = shareCard;
                 } else {
-                    alert("Miembro no encontrado o pendiente.");
+                    alert("No se encontró una membresía activa.");
                 }
             } catch (e) { alert("Error de conexión."); }
         }
 
         function drawCard(m) {
             const template = new Image();
-            // Nombres actualizados según tus archivos nuevos
             template.src = (m[6]?.trim() === 'Explorer') ? 'CARDCLUB EXPLORER.png' : 'CARDCLUB STANDART.png';
             
             template.onload = function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(template, 0, 0, 1000, 600);
                 
-                // --- Generación de QR ---
                 const qrImg = new Image();
                 qrImg.crossOrigin = "anonymous";
                 qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VALID_AVX_${m[8]}`;
@@ -159,17 +168,12 @@
                     ctx.drawImage(qrImg, 790, 260, 150, 150);
                 };
 
-                // --- TEXTO: NOMBRE (Ajustado a Blanco, más pequeño y centrado a la izquierda) ---
-                ctx.fillStyle = "#FFFFFF"; // Blanco Sólido solicitado
-                ctx.font = "bold 32px Montserrat"; // Reducido de 42px a 32px para nombres largos
-                ctx.fillText(`${m[1]} ${m[2]}`, 480, 140); // Movido de 560 a 480 (más al centro/izquierda)
-
-                // --- TEXTO: ID (En Amarillo Caterpillar) ---
+                ctx.fillStyle = "#FFFFFF";
+                ctx.font = "bold 32px Montserrat";
+                ctx.fillText(`${m[1]} ${m[2]}`, 480, 140);
                 ctx.fillStyle = "#FFCD00";
                 ctx.font = "bold 36px Montserrat"; 
                 ctx.fillText(`ID: ${m[8]}`, 480, 205);
-
-                // --- TEXTO: PAÍS Y VENCIMIENTO ---
                 ctx.fillStyle = "#FFFFFF";
                 ctx.font = "22px Montserrat";
                 ctx.fillText(`País: ${m[4]}`, 480, 255);
@@ -178,8 +182,15 @@
             }
         }
 
+        function downloadCard() {
+            const link = document.createElement('a');
+            link.download = `Tarjeta_AVX_${currentMember[8]}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
         async function shareCard() {
-            const textToShare = `¡Mira mi tarjeta de AVX Explorers Club! Mi ID es: ${currentMember[8]}. Únete aquí: ${window.location.href}`;
+            const textToShare = `¡Mi tarjeta de AVX Explorers Club! ID: ${currentMember[8]}. Únete aquí: ${window.location.href}`;
             if (navigator.share) {
                 try {
                     await navigator.share({ title: 'AVX Explorers', text: textToShare, url: window.location.href });
@@ -187,13 +198,6 @@
             } else {
                 window.open(`https://wa.me/?text=${encodeURIComponent(textToShare)}`, '_blank');
             }
-        }
-
-        function downloadCard() {
-            const link = document.createElement('a');
-            link.download = `Tarjeta_AVX_${currentMember[8]}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
         }
     </script>
 </body>
