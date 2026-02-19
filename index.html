@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +13,6 @@
             font-family: 'Montserrat', sans-serif; 
             margin: 0; padding: 0; color: #ffffff;
             background-color: #000000;
-            /* Fondo de curvas HD */
             background-image: url('fondo_curvas2.jpg'); 
             background-repeat: no-repeat;
             background-position: center center;
@@ -26,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* Capa de contraste */
         body::before {
             content: "";
             position: fixed;
@@ -60,9 +57,10 @@
             backdrop-filter: blur(12px); 
             border: 1px solid #FFCD00;
             border-radius: 20px;
-            padding: 24px;
-            width: 100%;
-            max-width: 400px;
+            padding: 20px; /* Reducido ligeramente para dar aire */
+            width: 90%; /* Se adapta al ancho de la pantalla */
+            max-width: 420px; /* Límite para que no se vea gigante en PC */
+            box-sizing: border-box;
         }
 
         #memberSearch {
@@ -71,24 +69,28 @@
             color: white;
             border-radius: 8px;
             outline: none;
+            width: 100%;
         }
 
-        #infoModal { 
-            display: none; position: fixed; z-index: 100; left: 0; top: 0; 
-            width: 100%; height: 100%; background: rgba(0,0,0,0.95); 
-            align-items: center; justify-content: center;
+        /* ESTO ARREGLA EL DESBORDE */
+        #cardCanvas { 
+            width: 100% !important; /* Fuerza al canvas a medir lo que mide su padre */
+            height: auto !important; /* Mantiene la proporción */
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto;
         }
-        
+
         .logo-header { max-height: 70px; width: auto; object-fit: contain; }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 sm:p-6">
 
     <header class="w-full max-w-md flex flex-col items-center mb-8 mt-4">
         <img src="logo_dual.png" alt="AVX Nómadas" class="logo-header mb-4">
     </header>
 
-    <div class="w-full max-w-md grid grid-cols-2 gap-3 mb-6">
+    <div class="w-full max-w-[420px] grid grid-cols-2 gap-3 mb-6">
         <a href="https://heyzine.com/flip-book/73a3d87016.html" target="_blank" class="btn-outline py-4 text-center text-[9px]">Próxima Expedición</a>
         <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar py-4 text-[9px]">Reservar Cupo</a>
     </div>
@@ -96,13 +98,13 @@
     <main class="glass-panel">
         <h2 class="text-center font-bold mb-4 uppercase text-yellow-500 text-[10px] tracking-widest">Acceso Miembros</h2>
         <div class="flex flex-col gap-3">
-            <input type="text" id="memberSearch" placeholder="Email o ID" class="p-4 rounded-lg font-bold text-center text-sm text-white">
+            <input type="text" id="memberSearch" placeholder="Email o ID" class="p-4 font-bold text-center text-sm text-white">
             <button onclick="checkMember()" class="btn-caterpillar py-4 uppercase text-xs">Validar Credencial</button>
         </div>
 
-        <div id="resultArea" class="mt-6 hidden text-center">
-            <canvas id="cardCanvas" width="1000" height="600" class="shadow-2xl mb-4"></canvas>
-            <div class="grid grid-cols-2 gap-3">
+        <div id="resultArea" class="mt-6 hidden text-center overflow-hidden">
+            <canvas id="cardCanvas" width="1000" height="600"></canvas>
+            <div class="grid grid-cols-2 gap-3 mt-4">
                 <button onclick="downloadCard()" class="btn-outline py-3 text-[10px]">📥 DESCARGAR</button>
                 <button id="shareBtn" class="btn-outline py-3 text-[10px]">📢 COMPARTIR</button>
             </div>
@@ -110,7 +112,7 @@
     </main>
 
     <footer class="w-full max-w-md mt-10 text-center">
-        <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="grid grid-cols-2 gap-3 mb-8 mx-auto max-w-[420px]">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-outline py-4 text-[9px]">AFILIACIÓN GRATUITA</a>
             <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-outline py-4 text-[9px]">Afiliación Explorer</button>
         </div>
@@ -121,19 +123,6 @@
             </a>
         </div>
     </footer>
-
-    <div id="infoModal">
-        <div class="glass-panel max-w-md w-full text-center mx-4">
-            <h3 class="text-xl font-bold text-yellow-500 uppercase">Membresía Explorer</h3>
-            <ul class="text-left text-[11px] space-y-4 text-gray-200 my-8 border-l-2 border-yellow-500 pl-4">
-                <li>✅ 10% de Descuento en expediciones.</li>
-                <li>✅ Tarjeta Digital VIP exclusiva.</li>
-                <li>✅ Revista digital “Nómadas Magazine”.</li>
-            </ul>
-            <a href="https://wise.com/pay/me/germanb185" target="_blank" class="btn-caterpillar block py-4 w-full text-sm font-bold">PAGAR $10 USD</a>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="text-gray-500 text-[10px] font-bold underline mt-6 uppercase">Volver</button>
-        </div>
-    </div>
 
     <script>
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhLTr6y6uUfZFSRcf8rHz_QA0gv_Yoc6ojmRi0TEubRjXk1mLWIiQO5cz130i7JtscZtcWVBPUhMSq/pub?gid=1555016917&single=true&output=csv';
@@ -192,15 +181,14 @@
             link.click();
         }
 
-        function shareCard() {
+        document.getElementById('shareBtn').onclick = () => {
             const text = `Mi credencial AVX: ${currentMember[8]}`;
             if (navigator.share) {
                 navigator.share({ title: 'AVX Card', text: text, url: window.location.href });
             } else {
                 window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
             }
-        }
-        document.getElementById('shareBtn').onclick = shareCard;
+        };
     </script>
 </body>
 </html>
