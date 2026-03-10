@@ -57,9 +57,9 @@
             backdrop-filter: blur(12px); 
             border: 1px solid #FFCD00;
             border-radius: 20px;
-            padding: 20px; /* Reducido ligeramente para dar aire */
-            width: 90%; /* Se adapta al ancho de la pantalla */
-            max-width: 420px; /* Límite para que no se vea gigante en PC */
+            padding: 20px;
+            width: 90%;
+            max-width: 420px;
             box-sizing: border-box;
         }
 
@@ -72,16 +72,269 @@
             width: 100%;
         }
 
-        /* ESTO ARREGLA EL DESBORDE */
         #cardCanvas { 
-            width: 100% !important; /* Fuerza al canvas a medir lo que mide su padre */
-            height: auto !important; /* Mantiene la proporción */
+            width: 100% !important;
+            height: auto !important;
             border-radius: 12px;
             display: block;
             margin: 0 auto;
         }
 
         .logo-header { max-height: 70px; width: auto; object-fit: contain; }
+
+        /* ── BENEFICIOS SECTION ── */
+        #beneficiosSection {
+            display: none;
+            width: 90%;
+            max-width: 420px;
+            margin-top: 24px;
+        }
+
+        #beneficiosSection.visible { display: block; }
+
+        .beneficios-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .beneficios-header h3 {
+            color: #FFCD00;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .beneficios-header p {
+            color: rgba(255,255,255,0.4);
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Filtros de categoría */
+        .cat-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .cat-btn {
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,205,0,0.3);
+            background: rgba(0,0,0,0.5);
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            border-color: #FFCD00;
+            color: #FFCD00;
+            background: rgba(255,205,0,0.08);
+        }
+
+        /* Ficha de afiliado */
+        .afiliado-card {
+            background: rgba(0,0,0,0.75);
+            border: 1px solid rgba(255,205,0,0.2);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .afiliado-card:hover { border-color: rgba(255,205,0,0.6); }
+
+        .afiliado-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .afiliado-body {
+            padding: 14px;
+        }
+
+        .afiliado-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .afiliado-nombre {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .sello-gold {
+            height: 28px;
+            width: auto;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .afiliado-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .afiliado-pais {
+            font-size: 9px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.05em;
+        }
+
+        .afiliado-cat {
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #FFCD00;
+            background: rgba(255,205,0,0.08);
+            border: 1px solid rgba(255,205,0,0.2);
+            border-radius: 100px;
+            padding: 2px 8px;
+            font-weight: 700;
+        }
+
+        .afiliado-desc {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .afiliado-beneficio {
+            font-size: 11px;
+            font-weight: 700;
+            color: #FFCD00;
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            background: rgba(255,205,0,0.06);
+            border-left: 2px solid #FFCD00;
+            border-radius: 4px;
+        }
+
+        .afiliado-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .afiliado-link {
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,205,0,0.3);
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .afiliado-link:hover {
+            border-color: #FFCD00;
+            color: #FFCD00;
+        }
+
+        .afiliado-link.vid {
+            border-color: rgba(153,255,0,0.3);
+            color: rgba(153,255,0,0.7);
+        }
+
+        .afiliado-link.vid:hover {
+            border-color: #99FF00;
+            color: #99FF00;
+        }
+
+        /* ── LOCKED STATE — para visitantes sin código ── */
+        #beneficiosLocked {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        #beneficiosLocked .lock-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        #beneficiosLocked h4 {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #FFCD00;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        #beneficiosLocked p {
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Acceso directo desde web */
+        .btn-beneficios {
+            display: block;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            padding: 14px;
+            border: 1.5px solid #FFCD00;
+            border-radius: 8px;
+            color: #FFCD00;
+            background: rgba(0,0,0,0.6);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-beneficios:hover { background: #FFCD00; color: #000; }
+
+        /* Animación entrada fichas */
+        .afiliado-card {
+            animation: fadeInUp 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .afiliado-card:nth-child(1) { animation-delay: 0.05s; }
+        .afiliado-card:nth-child(2) { animation-delay: 0.10s; }
+        .afiliado-card:nth-child(3) { animation-delay: 0.15s; }
+        .afiliado-card:nth-child(4) { animation-delay: 0.20s; }
+        .afiliado-card:nth-child(5) { animation-delay: 0.25s; }
+        .afiliado-card:nth-child(6) { animation-delay: 0.30s; }
+        .afiliado-card:nth-child(7) { animation-delay: 0.35s; }
+        .afiliado-card:nth-child(8) { animation-delay: 0.40s; }
+        .afiliado-card:nth-child(9) { animation-delay: 0.45s; }
     </style>
 </head>
 <body class="p-4 sm:p-6">
@@ -111,12 +364,252 @@
         </div>
     </main>
 
+    <!-- ── BOTÓN BENEFICIOS — visible siempre ── -->
+    <button class="btn-beneficios" onclick="toggleBeneficios()">
+        🎯 Ver Beneficios para Miembros AVX
+    </button>
+
+    <!-- ── SECCIÓN BENEFICIOS ── -->
+    <div id="beneficiosSection">
+
+        <!-- ESTADO BLOQUEADO — visible hasta que valide credencial -->
+        <div id="beneficiosLocked" class="glass-panel">
+            <div class="lock-icon">🔐</div>
+            <h4>Acceso Exclusivo Miembros</h4>
+            <p>Los beneficios del Directorio AVX están disponibles para miembros activos del Club. Valida tu credencial arriba para acceder a descuentos y beneficios exclusivos en toda la red.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-caterpillar py-3 text-[9px] block text-center" style="text-decoration:none">
+                Registro Gratuito — Únete al Club
+            </a>
+        </div>
+
+        <!-- ESTADO DESBLOQUEADO — visible tras validar credencial -->
+        <div id="beneficiosUnlocked" style="display:none">
+            <div class="beneficios-header">
+                <h3>🎯 Tus Beneficios AVX</h3>
+                <p>Presenta tu credencial QR para acceder</p>
+            </div>
+
+            <!-- Filtros -->
+            <div class="cat-filters">
+                <button class="cat-btn active" onclick="filterCat('todos', this)">Todos</button>
+                <button class="cat-btn" onclick="filterCat('aventura', this)">Aventura</button>
+                <button class="cat-btn" onclick="filterCat('hospedaje', this)">Hospedaje</button>
+                <button class="cat-btn" onclick="filterCat('alquileres', this)">Alquileres</button>
+            </div>
+
+            <!-- Fichas afiliados -->
+            <div id="afiliadosGrid">
+
+                <!-- AFILIADO 1: KAYAK VENEZUELA -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/afiliado-01-kayakvzla.jpg" alt="Kayak Venezuela">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Kayak Venezuela</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇻🇪 Venezuela</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">Expediciones en kayak por los ríos y costas más espectaculares de Venezuela. Operador certificado AVX Verified & Tested.</p>
+                        <div class="afiliado-beneficio">✦ Hasta un 20% de descuento para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="mailto:info@kayakvenezuela.com" class="afiliado-link">Email</a>
+                            <a href="https://www.facebook.com/kayakenvenezuela" target="_blank" class="afiliado-link">Facebook</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 2: SKYDIVE COSTA RICA -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/afiliado-2-skydivecr.jpg" alt="Skydive Costa Rica">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Skydive Costa Rica</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇷 Costa Rica</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">La experiencia de paracaidismo más emocionante de Costa Rica. Certificado AVX Verified & Tested por el equipo en campo.</p>
+                        <div class="afiliado-beneficio">✦ 15% OFF para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://skydivecostarica.com/es/" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:info@skydivecostarica.com" class="afiliado-link">Email</a>
+                            <a href="https://www.youtube.com/watch?v=0Wii6BrGDng" target="_blank" class="afiliado-link vid">▶ Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 3: CICLO LODGE -->
+                <div class="afiliado-card" data-cat="hospedaje">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/afiliado-3-ecolodge.jpg" alt="Ciclo Lodge">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Ciclo Lodge</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇪🇸 España</span>
+                            <span class="afiliado-cat">Hospedaje</span>
+                        </div>
+                        <p class="afiliado-desc">Hotel boutique temático para cicloturistas en la Sierra Norte de Madrid. Spa, restaurante, paquetes de rutas y alquiler de bicicletas.</p>
+                        <div class="afiliado-beneficio">✦ 10% de descuento para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://ciclolodge.com" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:info@ciclolodge.com" class="afiliado-link">Email</a>
+                            <a href="https://www.youtube.com/watch?v=M1N9Jkdhbew" target="_blank" class="afiliado-link vid">▶ Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 4: EXPLORACIÓN COLOMBIA CAMPESTRE -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/ecg-2.png" alt="Exploración Colombia Campestre">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Exploración Colombia Campestre</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇴 Colombia</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">Fundada en 2005 en San Gil, Santander. Más de 21 años especializados en turismo de aventura con estrictos estándares de seguridad.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="mailto:info@exploracioncolombia.com" class="afiliado-link">Email</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 5: AGUAHIELO EXPEDICIONES -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/agua-hielo.png" alt="AguaHielo Expediciones">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">AguaHielo Expediciones</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇱 Chile</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">Operador especializado en expediciones fluviales y de naturaleza salvaje en la Patagonia chilena. Una de las experiencias más auténticas del extremo sur del mundo.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://www.facebook.com/AguaHieloExpediciones/" target="_blank" class="afiliado-link">Facebook</a>
+                            <a href="mailto:aguahieloexpediciones@gmail.com" class="afiliado-link">Email</a>
+                            <a href="https://www.youtube.com/watch?v=Xouu2Ot8HMU" target="_blank" class="afiliado-link vid">▶ Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 6: AVENTURAS DEL SARAPIQUÍ -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/sarapiqui.png" alt="Aventuras del Sarapiquí">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Aventuras del Sarapiquí</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇷 Costa Rica</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">30 años de aventura pura en Sarapiquí. Rafting, canopy, kayak, senderismo y tours naturales en uno de los destinos de biodiversidad más ricos de Costa Rica.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://aventurasdelsarapiqui.com" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:aventuras@sarapiqui.com" class="afiliado-link">Email</a>
+                            <a href="https://www.youtube.com/watch?v=pxXjbeXDEJc" target="_blank" class="afiliado-link vid">▶ Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 7: XIELO SKYDIVE COLOMBIA -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/fichaxielo.png" alt="Xielo Skydive Colombia">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Xielo Skydive Colombia</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇴 Colombia</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">Escuela de paracaidismo 100% colombiana. Cumple tu sueño de volar de la manera más segura y profesional posible.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://xielo.co/" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:vuela@xielo.co" class="afiliado-link">Email</a>
+                            <a href="https://www.youtube.com/watch?v=wkMB4TcnIxE" target="_blank" class="afiliado-link vid">▶ Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 8: BICIVAN -->
+                <div class="afiliado-card" data-cat="aventura">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/bicivanficha.png" alt="Bicivan Kayak Colombia">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Bicivan Kayak Colombia</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇴 Colombia</span>
+                            <span class="afiliado-cat">Aventura & Tours</span>
+                        </div>
+                        <p class="afiliado-desc">Travesías en kayak en el Pacífico Sur colombiano con avistamiento de ballenas jorobadas. Expediciones de alto nivel con logística impecable.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://www.kayakcolombia.net/" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:julioperez@bicivan.com.co" class="afiliado-link">Email</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFILIADO 9: PAYARA RENT A CAR -->
+                <div class="afiliado-card" data-cat="alquileres">
+                    <img class="afiliado-img" src="https://avxexplorers.com/wp-content/uploads/2026/03/payaraficha.png" alt="Payara Rent a Car">
+                    <div class="afiliado-body">
+                        <div class="afiliado-top">
+                            <div class="afiliado-nombre">Payara Rent a Car</div>
+                            <img class="sello-gold" src="https://avxexplorers.com/wp-content/uploads/2026/03/sello_gold.png" alt="Gold">
+                        </div>
+                        <div class="afiliado-meta">
+                            <span class="afiliado-pais">🇨🇷 Costa Rica</span>
+                            <span class="afiliado-cat">Alquileres</span>
+                        </div>
+                        <p class="afiliado-desc">Alquiler de vehículos en San José con servicio de entrega a domicilio. En zonas céntricas la entrega no tiene costo adicional.</p>
+                        <div class="afiliado-beneficio">✦ Beneficios exclusivos para miembros AVX</div>
+                        <div class="afiliado-links">
+                            <a href="https://payararentacar.com/" target="_blank" class="afiliado-link">Web</a>
+                            <a href="mailto:payararentacar@gmail.com" class="afiliado-link">Email</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /afiliadosGrid -->
+
+            <!-- Banner captación nuevos afiliados -->
+            <div style="background:rgba(239,155,15,0.06);border:1px solid rgba(239,155,15,0.2);border-radius:14px;padding:20px;text-align:center;margin-top:8px;margin-bottom:16px;">
+                <p style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#FFCD00;font-weight:700;margin-bottom:8px;">¿Tu negocio llega a exploradores reales?</p>
+                <p style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:16px;">Únete al Directorio AVX · Silver $150/año · Gold $250/año · 9 cupos fundadores disponibles</p>
+                <a href="mailto:german@avxexplorers.com" style="display:inline-block;background:#FFCD00;color:#000;font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;border-radius:8px;text-decoration:none;">Quiero ser Aliado Fundador</a>
+            </div>
+
+        </div><!-- /beneficiosUnlocked -->
+    </div><!-- /beneficiosSection -->
+
     <footer class="w-full max-w-md mt-10 text-center">
         <div class="grid grid-cols-2 gap-3 mb-8 mx-auto max-w-[420px]">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScbVP4fo4fe5adyFuiXgoWcsflcdyZKVkI6l264fX2nzH3dHg/viewform" target="_blank" class="btn-outline py-4 text-[9px]">AFILIACIÓN GRATUITA</a>
             <button onclick="document.getElementById('infoModal').style.display='flex'" class="btn-outline py-4 text-[9px]">Afiliación Explorer</button>
         </div>
-        
         <div class="mt-6">
             <a href="https://www.avxexplorers.com" target="_blank" class="text-[10px] text-gray-400 tracking-[0.4em] uppercase hover:text-yellow-500 transition-colors">
                 www.avxexplorers.com
@@ -129,6 +622,7 @@
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
         let currentMember = null;
+        let beneficiosVisible = false;
 
         async function checkMember() {
             const input = document.getElementById('memberSearch').value.trim().toLowerCase();
@@ -142,8 +636,47 @@
                     currentMember = member;
                     document.getElementById('resultArea').classList.remove('hidden');
                     drawCard(member);
-                } else { alert("Miembro no encontrado o pendiente."); }
+                    // Desbloquear beneficios automáticamente
+                    unlockBeneficios();
+                } else { 
+                    alert("Miembro no encontrado o pendiente."); 
+                }
             } catch (e) { alert("Error de conexión."); }
+        }
+
+        function unlockBeneficios() {
+            document.getElementById('beneficiosLocked').style.display = 'none';
+            document.getElementById('beneficiosUnlocked').style.display = 'block';
+            // Mostrar sección si no está visible
+            if (!beneficiosVisible) {
+                beneficiosVisible = true;
+                document.getElementById('beneficiosSection').classList.add('visible');
+            }
+        }
+
+        function toggleBeneficios() {
+            beneficiosVisible = !beneficiosVisible;
+            const section = document.getElementById('beneficiosSection');
+            if (beneficiosVisible) {
+                section.classList.add('visible');
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                section.classList.remove('visible');
+            }
+        }
+
+        function filterCat(cat, btn) {
+            // Actualizar botones activos
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Filtrar fichas
+            document.querySelectorAll('.afiliado-card').forEach(card => {
+                if (cat === 'todos' || card.dataset.cat === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         function drawCard(m) {
